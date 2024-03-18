@@ -38,6 +38,7 @@ model Agency {
   task_categories TaskCategory[]
   comments        Comment[]
   pictures        Picture[]
+  userRole        UserRole
 }
 
 model User {
@@ -52,6 +53,7 @@ model User {
   Comment         Comment[]
   Picture         Picture[]
   FavoriteProject FavoriteProject[]
+  userRole        UserRole
 }
 
 model TaskUser {
@@ -220,4 +222,9 @@ enum InitialKanbanState {
   in_progress
   needs_review
   done
+}
+
+enum UserRole {
+  admin
+  user
 }
