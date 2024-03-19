@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import VerifyJwt from '../../shared/verify-jwt';
+import VerifyJwt from '../../shared/jwt-token/verify-jwt';
 
 export class JwtAuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
@@ -18,8 +18,8 @@ export class JwtAuthGuard implements CanActivate {
       const token = authHeader.substring(7);
 
       try {
-        const verfied = await new VerifyJwt(token).verify();
-        if (!verfied.valid) {
+        const verified = await new VerifyJwt(token).verify();
+        if (!verified.valid) {
           throw new UnauthorizedException('Invalid token');
         }
         return true;
