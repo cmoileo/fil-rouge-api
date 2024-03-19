@@ -1,9 +1,11 @@
-import { RegisterAgencyDto } from './dto/register-agency.dto';
+import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { PrismaClient } from '@prisma/client';
-import { LoginAgencyDto } from './dto/login-agency.dto';
+import { LoginAgencyDto } from './dto/agency/login-agency.dto';
 import RegisterAgencyService from './service/agency/register-agency.service';
 import LoginAgencyService from './service/agency/login-agency.service';
-import { HttpException } from "@nestjs/common";
+import { HttpException } from '@nestjs/common';
+import RegisterEmployeeService from './service/employee/register-employee.service';
+import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -22,5 +24,11 @@ export class AuthService {
       body,
     ).execute();
     return loggedAgency;
+  }
+
+  async registerEmployee(body: RegisterEmployeeDto) {
+    const createEmployee: string | HttpException =
+      await new RegisterEmployeeService(this.prisma, body).execute();
+    return createEmployee;
   }
 }

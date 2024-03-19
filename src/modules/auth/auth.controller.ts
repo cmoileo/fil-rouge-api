@@ -1,26 +1,25 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../guards/verify-jwt.guard';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterAgencyDto } from './dto/register-agency.dto';
-import { LoginAgencyDto } from './dto/login-agency.dto';
+import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
+import { LoginAgencyDto } from './dto/agency/login-agency.dto';
+import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('agency/register')
-  async register(@Body() registerDto: RegisterAgencyDto) {
-    return this.authService.registerAgency(registerDto);
+  async registerAgency(@Body() body: RegisterAgencyDto) {
+    return this.authService.registerAgency(body);
   }
 
   @Post('agency/login')
-  async login(@Body() loginDto: LoginAgencyDto) {
-    return this.authService.loginAgency(loginDto);
+  async loginAgency(@Body() body: LoginAgencyDto) {
+    return this.authService.loginAgency(body);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async test() {
-    return 'Hello World';
+  @Post('employee/register')
+  async registerEmployee(@Body() body: RegisterEmployeeDto) {
+    return this.authService.registerEmployee(body);
   }
 }

@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import HashPassword from '../../../../shared/hash-password';
 import GenerateJwt from '../../../../shared/jwt-token/generate-jwt';
 import { PrismaClient } from '@prisma/client';
-import { RegisterAgencyDto } from '../../dto/register-agency.dto';
+import { RegisterAgencyDto } from '../../dto/agency/register-agency.dto';
 
 export default class RegisterAgencyService {
   constructor(

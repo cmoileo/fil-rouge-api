@@ -1,38 +1,34 @@
 import { PrismaClient } from '@prisma/client';
-import { LoginAgencyDto } from '../../dto/agency/login-agency.dto';
+import { LoginEmployeeDto } from '../../dto/employee/login-employee.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import HashPassword from '../../../../shared/hash-password';
 import GenerateJwt from '../../../../shared/jwt-token/generate-jwt';
 
-export default class LoginAgencyService {
+export default class LoginEmployeeService {
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly body: LoginAgencyDto,
+    private readonly body: LoginEmployeeDto,
   ) {}
-
   async execute(): Promise<string | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const employee = await this.prisma.user.findUnique({
         where: {
           email: this.body.email,
         },
       });
-
-      if (!agency) {
-        throw new HttpException('Agency not found', HttpStatus.NOT_FOUND);
+      if (!employee) {
+        throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
       }
-
       const passwordMatch = await new HashPassword(this.body.password).compare(
-        agency.password,
+        employee.password,
       );
 
       if (!passwordMatch) {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
       }
 
-      const payload = { sub: agency.email };
-      const token = new GenerateJwt(payload, '30d').generate();
-
+      const payload = { sub: employee.email };
+      const token = await new GenerateJwt(payload, '30d').generate();
       return token;
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);

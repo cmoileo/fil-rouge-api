@@ -1,22 +1,29 @@
 import {
   IsEmail,
   IsIn,
-  IsInt,
   IsNotEmpty,
   IsString,
   Matches,
   MaxLength,
-  MinLength
+  MinLength,
 } from 'class-validator';
 
-export class RegisterAgencyDto {
+export class RegisterEmployeeDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  firstname: string;
+
+  @IsString()
+  @IsNotEmpty()
+  lastname: string;
+
+  @IsString()
+  @IsNotEmpty()
+  agency_id: string;
 
   @IsString()
   @MinLength(8)
@@ -32,33 +39,4 @@ export class RegisterAgencyDto {
   @MinLength(4)
   @MaxLength(20)
   passwordConfirm: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  house_number: number;
-
-  @IsString()
-  @IsNotEmpty()
-  street: string;
-
-  @IsString()
-  @IsNotEmpty()
-  city: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  zip_code: number;
-
-  @IsString()
-  @IsNotEmpty()
-  country: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  employee_count: number;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsIn(['freemium', 'pro', 'business'])
-  plan: 'freemium' | 'pro' | 'business';
 }
