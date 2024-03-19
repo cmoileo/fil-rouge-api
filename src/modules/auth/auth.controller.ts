@@ -22,4 +22,9 @@ export class AuthController {
   async registerEmployee(@Body() body: RegisterEmployeeDto) {
     return this.authService.registerEmployee(body);
   }
+
+  @Post('employee/login')
+  async loginEmployee(@Body() body: LoginAgencyDto) {
+    return this.authService.loginEmployee(body);
+  }
 }

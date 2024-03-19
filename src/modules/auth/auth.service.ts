@@ -6,6 +6,8 @@ import LoginAgencyService from './service/agency/login-agency.service';
 import { HttpException } from '@nestjs/common';
 import RegisterEmployeeService from './service/employee/register-employee.service';
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
+import { LoginEmployeeDto } from './dto/employee/login-employee.dto';
+import LoginEmployeeService from './service/employee/login-employee.service';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -30,5 +32,11 @@ export class AuthService {
     const createEmployee: string | HttpException =
       await new RegisterEmployeeService(this.prisma, body).execute();
     return createEmployee;
+  }
+
+  async loginEmployee(body: LoginEmployeeDto) {
+    const loggedEmployee: string | HttpException =
+      await new LoginEmployeeService(this.prisma, body).execute();
+    return loggedEmployee;
   }
 }
