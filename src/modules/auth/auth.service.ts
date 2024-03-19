@@ -1,8 +1,8 @@
 import { RegisterAgencyDto } from './dto/register-agency.dto';
 import { PrismaClient } from '@prisma/client';
 import { LoginAgencyDto } from './dto/login-agency.dto';
-import RegisterAgencyService from './service/register-agency.service';
-import LoginAgencyService from './service/login-agency.service';
+import RegisterAgencyService from './service/agency/register-agency.service';
+import LoginAgencyService from './service/agency/login-agency.service';
 import { HttpException } from "@nestjs/common";
 
 export class AuthService {
