@@ -16,16 +16,16 @@ datasource db {
 // schema.prisma
 
 model Agency {
-  id              Int            @id @default(autoincrement())
+  id              String         @id @default(uuid())
   name            String
-  email           String
+  email           String         @unique
   password        String
   house_number    Int
   street          String
   zip_code        Int
   city            String
   country         String
-  employe_number  Int
+  employee_count  Int
   plan            Plan
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
@@ -38,14 +38,13 @@ model Agency {
   task_categories TaskCategory[]
   comments        Comment[]
   pictures        Picture[]
-  userRole        UserRole
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  email           String
+  id              String            @id @default(uuid())
+  email           String            @unique
   password        String
-  agency_id       Int
+  agency_id       String
   agency          Agency            @relation(fields: [agency_id], references: [id])
   roles_users     RolesUsers[]
   created_tasks   Task[]
@@ -58,8 +57,8 @@ model User {
 
 model TaskUser {
   id         Int       @id @default(autoincrement())
-  task_id    Int
-  employe_id Int
+  task_id    String
+  employe_id String
   task       Task      @relation(fields: [task_id], references: [id])
   employe    User      @relation(fields: [employe_id], references: [id])
   createdAt  DateTime  @default(now())
@@ -70,7 +69,7 @@ model TaskUser {
 model Folder {
   id        Int       @id @default(autoincrement())
   name      String
-  agency_id Int
+  agency_id String
   folder_id Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -82,7 +81,7 @@ model Folder {
 }
 
 model Project {
-  id              Int               @id @default(autoincrement())
+  id              String            @id @default(uuid())
   name            String
   description     String
   folder_id       Int
@@ -96,7 +95,7 @@ model Project {
 }
 
 model Task {
-  id                  Int            @id @default(autoincrement())
+  id                  String         @id @default(uuid())
   name                String
   description         String
   assigned            Int
@@ -105,7 +104,7 @@ model Task {
   starting_date       DateTime
   is_priority         Priority
   is_finished         Boolean
-  project_id          Int
+  project_id          String
   kanban_state_id     Int
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
@@ -117,34 +116,34 @@ model Task {
   comments            Comment[]
   pictures            Picture[]
   Agency              Agency?        @relation(fields: [agencyId], references: [id])
-  agencyId            Int?
+  agencyId            String?
   User                User?          @relation(fields: [userId], references: [id])
-  userId              Int?
+  userId              String?
 }
 
 model Role {
   id          Int          @id @default(autoincrement())
   name        String
-  agency_id   Int
+  agency_id   String
   roles_users RolesUsers[]
   agency      Agency       @relation(fields: [agency_id], references: [id])
 }
 
 model RolesUsers {
   id       Int     @id @default(autoincrement())
-  user_id  Int
+  user_id  String
   role_id  Int
   user     User    @relation(fields: [user_id], references: [id])
   role     Role    @relation(fields: [role_id], references: [id])
   Agency   Agency? @relation(fields: [agencyId], references: [id])
-  agencyId Int?
+  agencyId String?
 }
 
 model TaskCategory {
   id        Int       @id @default(autoincrement())
   name      String
   color     String
-  agency_id Int
+  agency_id String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -154,8 +153,8 @@ model TaskCategory {
 
 model Comment {
   id        Int       @id @default(autoincrement())
-  author_id Int
-  task_id   Int
+  author_id String
+  task_id   String
   content   String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -163,17 +162,17 @@ model Comment {
   author    User      @relation(fields: [author_id], references: [id])
   task      Task      @relation(fields: [task_id], references: [id])
   Agency    Agency?   @relation(fields: [agencyId], references: [id])
-  agencyId  Int?
+  agencyId  String?
   Picture   Picture[]
 }
 
 model Picture {
   id         Int       @id @default(autoincrement())
   pathname   String
-  user_id    Int
+  user_id    String
   comment_id Int
-  task_id    Int
-  agency_id  Int
+  task_id    String
+  agency_id  String
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
@@ -185,8 +184,8 @@ model Picture {
 
 model FavoriteProject {
   id         Int     @id @default(autoincrement())
-  user_id    Int
-  project_id Int
+  user_id    String
+  project_id String
   order      Int
   user       User    @relation(fields: [user_id], references: [id])
   project    Project @relation(fields: [project_id], references: [id])
@@ -196,7 +195,7 @@ model KanbanState {
   id            Int                @id @default(autoincrement())
   state         String
   order         Int
-  project_id    Int
+  project_id    String
   initial_state InitialKanbanState
   createdAt     DateTime           @default(now())
   updatedAt     DateTime           @updatedAt
