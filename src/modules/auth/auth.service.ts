@@ -34,7 +34,7 @@ export class AuthService {
     });
 
     const payload = { sub: body.email };
-    const token = new GenerateJwt(payload, '1m').generate();
+    const token = new GenerateJwt(payload, '30d').generate();
 
     return token;
   }
@@ -59,7 +59,7 @@ export class AuthService {
     }
 
     const payload = { sub: agency.email };
-    const token = new GenerateJwt(payload, '1m').generate();
+    const token = new GenerateJwt(payload, '30d').generate();
 
     return token;
   }
