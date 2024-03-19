@@ -3,6 +3,7 @@ import { RegisterAgencyDto } from './dto/register-agency.dto';
 import { PrismaClient } from '@prisma/client';
 import { LoginAgencyDto } from './dto/login-agency.dto';
 import HashPassword from '../../shared/hash-password';
+import GenerateJwt from '../../shared/generate-jwt';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -16,7 +17,8 @@ export class AuthService {
       );
     }
     const hashedPassword = await new HashPassword(body.password).hash();
-    const newAgency = await this.prisma.agency.create({
+
+    await this.prisma.agency.create({
       data: {
         name: body.name,
         email: body.email,
@@ -31,7 +33,10 @@ export class AuthService {
       },
     });
 
-    return newAgency;
+    const payload = { sub: body.email };
+    const token = new GenerateJwt(payload, '1m').generate();
+
+    return token;
   }
 
   async loginAgency(body: LoginAgencyDto) {
@@ -53,6 +58,9 @@ export class AuthService {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
 
-    return agency;
+    const payload = { sub: agency.email };
+    const token = new GenerateJwt(payload, '1m').generate();
+
+    return token;
   }
 }
