@@ -14,13 +14,13 @@ export class AuthService {
     this.prisma = new PrismaClient();
   }
 
-  async registerAgency(body: RegisterAgencyDto) {
+  async registerAgency(body: RegisterAgencyDto): Promise<string | HttpException> {
     const createAgency: string | HttpException =
       await new RegisterAgencyService(this.prisma, body).execute();
     return createAgency;
   }
 
-  async loginAgency(body: LoginAgencyDto) {
+  async loginAgency(body: LoginAgencyDto): Promise<string | HttpException> {
     const loggedAgency: string | HttpException = await new LoginAgencyService(
       this.prisma,
       body,
@@ -28,13 +28,15 @@ export class AuthService {
     return loggedAgency;
   }
 
-  async registerEmployee(body: RegisterEmployeeDto) {
+  async registerEmployee(
+    body: RegisterEmployeeDto,
+  ): Promise<string | HttpException> {
     const createEmployee: string | HttpException =
       await new RegisterEmployeeService(this.prisma, body).execute();
     return createEmployee;
   }
 
-  async loginEmployee(body: LoginEmployeeDto) {
+  async loginEmployee(body: LoginEmployeeDto): Promise<string | HttpException> {
     const loggedEmployee: string | HttpException =
       await new LoginEmployeeService(this.prisma, body).execute();
     return loggedEmployee;
