@@ -22,10 +22,6 @@ export class RegisterEmployeeDto {
   lastname: string;
 
   @IsString()
-  @IsNotEmpty()
-  agency_id: string;
-
-  @IsString()
   @MinLength(8)
   @MaxLength(20)
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).*$/, {

@@ -8,8 +8,8 @@ import RegisterEmployeeService from './service/employee/register-employee.servic
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 import { LoginEmployeeDto } from './dto/employee/login-employee.dto';
 import LoginEmployeeService from './service/employee/login-employee.service';
-import { AddEmployeeAgencyDto } from "./dto/agency/add-employee-agency.dto";
-import AddEmployeeAgencyService from "./service/agency/add-employee-agency.service";
+import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
+import AddEmployeeAgencyService from './service/agency/add-employee-agency.service';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -41,10 +41,11 @@ export class AuthService {
   }
 
   async registerEmployee(
+    id: string,
     body: RegisterEmployeeDto,
   ): Promise<string | HttpException> {
     const createEmployee: string | HttpException =
-      await new RegisterEmployeeService(this.prisma, body).execute();
+      await new RegisterEmployeeService(this.prisma, body, id).execute();
     return createEmployee;
   }
 

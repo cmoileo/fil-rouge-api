@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Param, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from './auth.service';
 import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { LoginAgencyDto } from './dto/agency/login-agency.dto';
@@ -25,9 +25,12 @@ export class AuthController {
     return this.authService.addEmployee(body, userEmail);
   }
 
-  @Post('employee/register')
-  async registerEmployee(@Body() body: RegisterEmployeeDto) {
-    return this.authService.registerEmployee(body);
+  @Post('employee/register/:id')
+  async registerEmployee(
+    @Param('id') id: string,
+    @Body() body: RegisterEmployeeDto,
+  ) {
+    return this.authService.registerEmployee(id, body);
   }
 
   @Post('employee/login')

@@ -8,6 +8,7 @@ export default class RegisterEmployeeService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly body: RegisterEmployeeDto,
+    private readonly id: string,
   ) {}
 
   async execute(): Promise<string | HttpException> {
@@ -23,6 +24,15 @@ export default class RegisterEmployeeService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      const pendingEmployee = await this.prisma.pendingEmployee.findUnique({
+        where: {
+          id: this.id,
+        },
+      });
+      if (!pendingEmployee || pendingEmployee.email !== this.body.email) {
+        throw new HttpException('Employee not found', HttpStatus.BAD_REQUEST);
+      }
+      const agency_id = pendingEmployee.agency_id;
       const isPasswordMatch = this.body.password === this.body.passwordConfirm;
       if (!isPasswordMatch) {
         throw new HttpException(
@@ -37,7 +47,7 @@ export default class RegisterEmployeeService {
           lastname: this.body.lastname,
           email: this.body.email,
           password: hashedPassword,
-          agency_id: this.body.agency_id,
+          agency_id: agency_id,
         },
       });
       if (!newEmployee) {
