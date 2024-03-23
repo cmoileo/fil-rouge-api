@@ -1,11 +1,12 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { LoginAgencyDto } from './dto/agency/login-agency.dto';
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
-import { JwtAuthGuard } from "../guards/verify-jwt.guard";
-import { AddEmployeeAgencyDto } from "./dto/agency/add-employee-agency.dto";
-import { PasswordRecoveryAskDto } from "./dto/password-recovery-ask.dto";
+import { JwtAuthGuard } from '../guards/verify-jwt.guard';
+import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
+import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
+import { PasswordRecoveryDto } from "./dto/password-recovery.dto";
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -42,5 +43,12 @@ export class AuthController {
   @Post('password-recovery-ask')
   async passwordRecovery(@Body() body: PasswordRecoveryAskDto) {
     return this.authService.passwordRecovery(body);
+  }
+  @Post('password-recovery/:id')
+  async passwordRecoveryChange(
+    @Param('id') id: string,
+    @Body() body: PasswordRecoveryDto,
+  ) {
+    return this.authService.passwordRecoveryChange(id, body);
   }
 }
