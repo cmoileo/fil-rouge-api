@@ -32,6 +32,11 @@ export default class RegisterEmployeeService {
       if (!pendingEmployee || pendingEmployee.email !== this.body.email) {
         throw new HttpException('Employee not found', HttpStatus.BAD_REQUEST);
       }
+      this.prisma.pendingEmployee.delete({
+        where: {
+          id: this.id,
+        },
+      });
       const agency_id = pendingEmployee.agency_id;
       const isPasswordMatch = this.body.password === this.body.passwordConfirm;
       if (!isPasswordMatch) {

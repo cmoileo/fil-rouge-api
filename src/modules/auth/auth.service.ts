@@ -10,6 +10,8 @@ import { LoginEmployeeDto } from './dto/employee/login-employee.dto';
 import LoginEmployeeService from './service/employee/login-employee.service';
 import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
 import AddEmployeeAgencyService from './service/agency/add-employee-agency.service';
+import { PasswordRecoveryAskService } from './service/password-recovery-ask.service';
+import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -53,5 +55,15 @@ export class AuthService {
     const loggedEmployee: string | HttpException =
       await new LoginEmployeeService(this.prisma, body).execute();
     return loggedEmployee;
+  }
+
+  async passwordRecovery(
+    body: PasswordRecoveryAskDto,
+  ): Promise<boolean | HttpException> {
+    const recovery = await new PasswordRecoveryAskService(
+      this.prisma,
+      body,
+    ).execute();
+    return recovery;
   }
 }

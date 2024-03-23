@@ -5,6 +5,7 @@ import { LoginAgencyDto } from './dto/agency/login-agency.dto';
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 import { JwtAuthGuard } from "../guards/verify-jwt.guard";
 import { AddEmployeeAgencyDto } from "./dto/agency/add-employee-agency.dto";
+import { PasswordRecoveryAskDto } from "./dto/password-recovery-ask.dto";
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -36,5 +37,10 @@ export class AuthController {
   @Post('employee/login')
   async loginEmployee(@Body() body: LoginAgencyDto) {
     return this.authService.loginEmployee(body);
+  }
+
+  @Post('password-recovery-ask')
+  async passwordRecovery(@Body() body: PasswordRecoveryAskDto) {
+    return this.authService.passwordRecovery(body);
   }
 }
