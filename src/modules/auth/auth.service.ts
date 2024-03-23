@@ -8,13 +8,17 @@ import RegisterEmployeeService from './service/employee/register-employee.servic
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 import { LoginEmployeeDto } from './dto/employee/login-employee.dto';
 import LoginEmployeeService from './service/employee/login-employee.service';
+import { AddEmployeeAgencyDto } from "./dto/agency/add-employee-agency.dto";
+import AddEmployeeAgencyService from "./service/agency/add-employee-agency.service";
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
     this.prisma = new PrismaClient();
   }
 
-  async registerAgency(body: RegisterAgencyDto): Promise<string | HttpException> {
+  async registerAgency(
+    body: RegisterAgencyDto,
+  ): Promise<string | HttpException> {
     const createAgency: string | HttpException =
       await new RegisterAgencyService(this.prisma, body).execute();
     return createAgency;
@@ -26,6 +30,14 @@ export class AuthService {
       body,
     ).execute();
     return loggedAgency;
+  }
+  async addEmployee(body: AddEmployeeAgencyDto, userEmail: string) {
+    const addEmployeeAgency = await new AddEmployeeAgencyService(
+      this.prisma,
+      body,
+      userEmail,
+    ).execute();
+    return addEmployeeAgency;
   }
 
   async registerEmployee(

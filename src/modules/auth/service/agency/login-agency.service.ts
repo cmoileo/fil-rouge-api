@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { LoginAgencyDto } from '../../dto/agency/login-agency.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import HashPassword from '../../../../shared/hash-password';
-import GenerateJwt from '../../../../shared/jwt-token/generate-jwt';
+import HashPassword from '../../../../shared/utils/hash-password';
+import GenerateJwt from '../../../../shared/utils/jwt-token/generate-jwt';
 
 export default class LoginAgencyService {
   constructor(

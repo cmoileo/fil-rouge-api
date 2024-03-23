@@ -16,9 +16,9 @@ datasource db {
 // schema.prisma
 
 model Agency {
-  id              String         @id @default(uuid())
+  id              String            @id @default(uuid())
   name            String
-  email           String         @unique
+  email           String            @unique
   password        String
   house_number    Int
   street          String
@@ -27,8 +27,8 @@ model Agency {
   country         String
   employee_count  Int
   plan            Plan
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?
   roles_users     RolesUsers[]
   users           User[]
@@ -39,6 +39,17 @@ model Agency {
   comments        Comment[]
   pictures        Picture[]
   userRole        UserRole?
+  PendingEmployee PendingEmployee[]
+}
+
+model PendingEmployee {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  agency_id String
+  Agency    Agency    @relation(fields: [agency_id], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
 
 model User {

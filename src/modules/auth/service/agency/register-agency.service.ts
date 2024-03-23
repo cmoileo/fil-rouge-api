@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import HashPassword from '../../../../shared/hash-password';
-import GenerateJwt from '../../../../shared/jwt-token/generate-jwt';
+import HashPassword from '../../../../shared/utils/hash-password';
+import GenerateJwt from '../../../../shared/utils/jwt-token/generate-jwt';
 import { PrismaClient } from '@prisma/client';
 import { RegisterAgencyDto } from '../../dto/agency/register-agency.dto';
 

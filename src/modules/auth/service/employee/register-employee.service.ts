@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import GenerateJwt from '../../../../shared/jwt-token/generate-jwt';
-import HashPassword from '../../../../shared/hash-password';
+import GenerateJwt from '../../../../shared/utils/jwt-token/generate-jwt';
+import HashPassword from '../../../../shared/utils/hash-password';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { RegisterEmployeeDto } from '../../dto/employee/register-employee.dto';
 
