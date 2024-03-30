@@ -1,6 +1,6 @@
 import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { UpdateRoleDto } from '../dto/update-role.dto';
+import { UpdateRoleDto } from '../../dto/update-role.dto';
 
 export class UpdateRoleService {
   constructor (

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
-import { CreateRoleDto } from '../dto/create-role.dto';
+import { CreateRoleDto } from '../../dto/create-role.dto';
 
 export class CreateRoleService {
   constructor(

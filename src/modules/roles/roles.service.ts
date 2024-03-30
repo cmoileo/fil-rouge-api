@@ -1,12 +1,13 @@
 import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateRoleDto } from './dto/create-role.dto';
-import { CreateRoleService } from './service/create-role.service';
-import { UpdateRoleService } from './service/update-role.service';
+import { CreateRoleService } from './service/crud-action/create-role.service';
+import { UpdateRoleService } from './service/crud-action/update-role.service';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { DeleteRoleService } from './service/delete-role.service';
+import { DeleteRoleService } from './service/crud-action/delete-role.service';
 import { Role } from '../../shared/types/roles/role.type';
-import { GetRolesService } from "./service/get-roles.service";
+import { GetRolesService } from "./service/crud-action/get-roles.service";
+import { AssignRoleService } from "./service/assign-to-employee/assign-role.service";
 
 export class RolesService {
   constructor(private prisma: PrismaClient) {
@@ -45,13 +46,23 @@ export class RolesService {
     return updatedRole;
   }
 
-  async deleteRole(
-    roleId: string,
-  ): Promise<boolean | HttpException> {
+  async deleteRole(roleId: string): Promise<boolean | HttpException> {
     const deletedRole = await new DeleteRoleService(
       this.prisma,
       roleId,
     ).execute();
     return deletedRole;
+  }
+
+  async assignRoleToEmployee(
+    agencyEmail: string,
+    body: any,
+  ): Promise<boolean | HttpException> {
+    const assignedRole = await new AssignRoleService(
+      this.prisma,
+      agencyEmail,
+      body,
+    ).execute();
+    return assignedRole;
   }
 }

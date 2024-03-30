@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Role } from "../../../shared/types/roles/role.type";
+import { Role } from "../../../../shared/types/roles/role.type";
 import { HttpException } from "@nestjs/common";
 
 export class GetRolesService {
