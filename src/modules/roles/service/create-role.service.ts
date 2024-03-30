@@ -15,13 +15,14 @@ export class CreateRoleService {
         where: { email: this.email },
       });
       if (!agency) {
-        throw new HttpException('Agency not found', 404);
+        return new HttpException('Agency not found', 404);
       }
       const isAlreadyRole = await this.prisma.role.findFirst({
         where: { name: this.body.name, agency_id: agency.id },
       });
+      console.log(isAlreadyRole);
       if (isAlreadyRole) {
-        throw new HttpException('Role already exists', 400);
+        return new HttpException('Role already exists', 400);
       }
       await this.prisma.role.create({
         data: {
