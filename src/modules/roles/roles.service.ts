@@ -3,12 +3,22 @@ import { PrismaClient } from '@prisma/client';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { CreateRoleService } from './service/create-role.service';
 import { UpdateRoleService } from './service/update-role.service';
-import { UpdateRoleDto } from "./dto/update-role.dto";
-import { DeleteRoleService } from "./service/delete-role.service";
+import { UpdateRoleDto } from './dto/update-role.dto';
+import { DeleteRoleService } from './service/delete-role.service';
+import { Role } from '../../shared/types/roles/role.type';
+import { GetRolesService } from "./service/get-roles.service";
 
 export class RolesService {
   constructor(private prisma: PrismaClient) {
     this.prisma = new PrismaClient();
+  }
+
+  async getRoles(userEmail: string): Promise<Role[] | HttpException> {
+    const roles: Role[] | HttpException = await new GetRolesService(
+      this.prisma,
+      userEmail,
+    ).execute();
+    return roles;
   }
 
   async createRole(
