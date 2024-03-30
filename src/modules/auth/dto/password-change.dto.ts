@@ -13,7 +13,7 @@ export class PasswordChangeDto {
 
   @IsString()
   @MinLength(8)
-  @MaxLength(20)
+  @MaxLength(30)
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).*$/, {
     message:
       'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.',
@@ -22,7 +22,7 @@ export class PasswordChangeDto {
   newPassword: string;
 
   @IsString()
-  @MinLength(4)
-  @MaxLength(20)
+  @MinLength(8)
+  @MaxLength(30)
   newPasswordConfirm: string;
 }

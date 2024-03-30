@@ -14,17 +14,20 @@ export class AgencyPasswordChangeService {
       const agency = await this.prisma.agency.findUnique({
         where: { email: this.email },
       });
+      const comparePassword = await new HashPassword(
+        this.body.currentPassword,
+      ).compare(agency.password);
+
       if (!agency) {
         throw new HttpException('Agency not found', 404);
       }
 
-      const cryptedPassword = await new HashPassword(
-        this.body.newPassword,
-      ).hash();
-
-      if (agency && agency.password !== cryptedPassword) {
+      if (!comparePassword) {
         throw new HttpException('Invalid password', 400);
       } else {
+        const cryptedPassword = await new HashPassword(
+          this.body.newPassword,
+        ).hash();
         await this.prisma.agency.update({
           where: { email: this.email },
           data: { password: cryptedPassword },

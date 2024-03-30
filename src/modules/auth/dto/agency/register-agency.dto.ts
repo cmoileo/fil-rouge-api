@@ -20,7 +20,7 @@ export class RegisterAgencyDto {
 
   @IsString()
   @MinLength(8)
-  @MaxLength(20)
+  @MaxLength(30)
   @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).*$/, {
     message:
       'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.',
@@ -30,7 +30,7 @@ export class RegisterAgencyDto {
 
   @IsString()
   @MinLength(4)
-  @MaxLength(20)
+  @MaxLength(30)
   passwordConfirm: string;
 
   @IsInt()
