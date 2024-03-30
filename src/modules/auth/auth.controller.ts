@@ -59,4 +59,11 @@ export class AuthController {
     const userEmail = req.userEmail;
     return this.authService.passwordChange(userEmail, body);
   }
+
+  @Post('employee/password-change')
+  @UseGuards(JwtAuthGuard)
+  async passwordChangeEmployee(@Body() body: PasswordChangeDto, @Req() req: any) {
+    const userEmail = req.userEmail;
+    return this.authService.passwordChangeEmployee(userEmail, body);
+  }
 }
