@@ -13,7 +13,9 @@ import AddEmployeeAgencyService from './service/agency/add-employee-agency.servi
 import { PasswordRecoveryAskService } from './service/password-recovery-ask.service';
 import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 import { PasswordRecoveryService } from './service/password-recovery.service';
-import { PasswordRecoveryDto } from "./dto/password-recovery.dto";
+import { PasswordRecoveryDto } from './dto/password-recovery.dto';
+import { PasswordChangeDto } from './dto/password-change.dto';
+import { AgencyPasswordChangeService } from './service/agency/password-agency-change.service';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -79,5 +81,17 @@ export class AuthService {
       body,
     ).execute();
     return recovery;
+  }
+
+  async passwordChange(
+    userEmail: string,
+    body: PasswordChangeDto,
+  ): Promise<boolean | HttpException> {
+    const change = await new AgencyPasswordChangeService(
+      this.prisma,
+      userEmail,
+      body,
+    ).execute();
+    return change;
   }
 }

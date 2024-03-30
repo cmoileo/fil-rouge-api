@@ -7,6 +7,7 @@ import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
 import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 import { PasswordRecoveryDto } from "./dto/password-recovery.dto";
+import { PasswordChangeDto } from "./dto/password-change.dto";
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -50,5 +51,12 @@ export class AuthController {
     @Body() body: PasswordRecoveryDto,
   ) {
     return this.authService.passwordRecoveryChange(id, body);
+  }
+
+  @Post('agency/password-change')
+  @UseGuards(JwtAuthGuard)
+  async passwordChange(@Body() body: PasswordChangeDto, @Req() req: any) {
+    const userEmail = req.userEmail;
+    return this.authService.passwordChange(userEmail, body);
   }
 }

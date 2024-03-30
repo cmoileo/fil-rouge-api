@@ -4,10 +4,11 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { PasswordRecoveryAskService } from './service/password-recovery-ask.service';
 import { PasswordRecoveryService } from './service/password-recovery.service';
+import { PasswordChangeService } from './service/agency/password-agency-change.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, PasswordRecoveryAskService, PasswordRecoveryService],
+  providers: [AuthService, PasswordRecoveryAskService, PasswordRecoveryService, PasswordChangeService],
   imports: [JwtAuthGuard],
 })
 export class AuthModule {}
