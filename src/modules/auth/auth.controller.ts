@@ -28,6 +28,13 @@ export class AuthController {
     return this.authService.addEmployee(body, userEmail);
   }
 
+  @Post('agency/remove-employee')
+  @UseGuards(JwtAuthGuard)
+  async removeEmployee(@Body() body: AddEmployeeAgencyDto, @Req() req: any) {
+    const userEmail = req.userEmail;
+    return this.authService.removeEmployee(body, userEmail);
+  }
+
   @Post('employee/register/:id')
   async registerEmployee(
     @Param('id') id: string,

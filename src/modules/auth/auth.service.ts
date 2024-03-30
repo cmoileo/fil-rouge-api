@@ -16,7 +16,8 @@ import { PasswordRecoveryService } from './service/password-recovery.service';
 import { PasswordRecoveryDto } from './dto/password-recovery.dto';
 import { PasswordChangeDto } from './dto/password-change.dto';
 import { AgencyPasswordChangeService } from './service/agency/password-agency-change.service';
-import EmployeePasswordChangeService from "./service/employee/password-employee-change.service";
+import EmployeePasswordChangeService from './service/employee/password-employee-change.service';
+import { RemoveEmployeeAgencyService } from './service/agency/remove-employee-agency.service';
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {
@@ -106,5 +107,17 @@ export class AuthService {
       body,
     ).execute();
     return change;
+  }
+
+  async removeEmployee(
+    body: AddEmployeeAgencyDto,
+    userEmail: string,
+  ): Promise<boolean | HttpException> {
+    const removeEmployee = await new RemoveEmployeeAgencyService(
+      this.prisma,
+      body,
+      userEmail,
+    ).execute();
+    return removeEmployee;
   }
 }
