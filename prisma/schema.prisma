@@ -138,6 +138,7 @@ model Task {
 model Role {
   id          Int          @id @default(autoincrement())
   name        String
+  color       String
   agency_id   String
   roles_users RolesUsers[]
   agency      Agency       @relation(fields: [agency_id], references: [id])
