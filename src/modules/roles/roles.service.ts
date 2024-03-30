@@ -8,6 +8,7 @@ import { DeleteRoleService } from './service/crud-action/delete-role.service';
 import { Role } from '../../shared/types/roles/role.type';
 import { GetRolesService } from "./service/crud-action/get-roles.service";
 import { AssignRoleService } from "./service/assign-to-employee/assign-role.service";
+import { RemoveRoleService } from "./service/assign-to-employee/remove-role.service";
 
 export class RolesService {
   constructor(private prisma: PrismaClient) {
@@ -64,5 +65,17 @@ export class RolesService {
       body,
     ).execute();
     return assignedRole;
+  }
+
+  async removeRoleFromEmployee(
+    agencyEmail: string,
+    body: any,
+  ): Promise<boolean | HttpException> {
+    const removedRole = await new RemoveRoleService(
+      this.prisma,
+      agencyEmail,
+      body,
+    ).execute();
+    return removedRole;
   }
 }

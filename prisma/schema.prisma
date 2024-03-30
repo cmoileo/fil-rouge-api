@@ -145,7 +145,7 @@ model Role {
 }
 
 model RolesUsers {
-  id       Int     @id @default(autoincrement())
+  id       String  @id @default(uuid())
   user_id  String
   role_id  String
   user     User    @relation(fields: [user_id], references: [id])

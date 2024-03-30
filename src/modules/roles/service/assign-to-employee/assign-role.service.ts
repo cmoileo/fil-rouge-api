@@ -26,10 +26,21 @@ export class AssignRoleService {
       if (!employee) {
         return new HttpException('Employee not found', 404);
       }
+      const existingRole = await this.prisma.rolesUsers.findFirst({
+        where: {
+          role_id: this.body.role_id,
+          user_id: this.body.user_id,
+          agencyId: agency.id,
+        },
+      });
+      if (existingRole) {
+        return new HttpException('Role already assigned', 400);
+      }
       await this.prisma.rolesUsers.create({
         data: {
           role_id: this.body.role_id,
           user_id: this.body.user_id,
+          agencyId: agency.id,
         },
       });
       return true;
