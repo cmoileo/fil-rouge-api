@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { RolesService } from './roles.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateRoleDto } from './dto/create-role.dto';
@@ -20,5 +20,11 @@ export class RolesController {
   async updateRole(@Req() req: any, @Body() body: UpdateRoleDto) {
     const userEmail = req.userEmail;
     return await this.rolesService.updateRole(userEmail, body);
+  }
+
+  @Delete('/delete/:id')
+  @UseGuards(JwtAuthGuard)
+  async deleteRole(@Param('id') roleId: string) {
+    return await this.rolesService.deleteRole(roleId);
   }
 }
