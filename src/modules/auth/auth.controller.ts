@@ -6,11 +6,11 @@ import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
 import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
-import { PasswordRecoveryDto } from "./dto/password-recovery.dto";
-import { PasswordChangeDto } from "./dto/password-change.dto";
+import { PasswordRecoveryDto } from './dto/password-recovery.dto';
+import { PasswordChangeDto } from './dto/password-change.dto';
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('agency/register')
   async registerAgency(@Body() body: RegisterAgencyDto) {
