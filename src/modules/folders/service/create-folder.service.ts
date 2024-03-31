@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
 
 export class CreateFolderService {
-  constructor() {}
   async execute(
     prisma: PrismaClient,
     admin_email: string,
@@ -16,7 +15,18 @@ export class CreateFolderService {
         },
       });
       if (!agency) {
-        throw new HttpException('Agency not found', 404);
+        return new HttpException('Agency not found', 404);
+      }
+      const existingFolder = await prisma.folder.findFirst({
+        where: {
+          name: body.name,
+          agency_id: agency.id,
+          parent_folder_id: body.parent_folder_id,
+        },
+      });
+      console.log('existingFolder', existingFolder);
+      if (existingFolder) {
+        return new HttpException('Folder already exists', 400);
       }
       await prisma.folder.create({
         data: {
