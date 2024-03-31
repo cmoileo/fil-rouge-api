@@ -81,24 +81,24 @@ model TaskUser {
 }
 
 model Folder {
-  id        Int       @id @default(autoincrement())
-  name      String
-  agency_id String
-  folder_id Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  agency    Agency    @relation(fields: [agency_id], references: [id])
-  parent    Folder?   @relation("FolderToFolder", fields: [folder_id], references: [id])
-  folders   Folder[]  @relation("FolderToFolder")
-  projects  Project[]
+  id               String    @id @default(uuid())
+  name             String
+  agency_id        String
+  parent_folder_id String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+  agency           Agency    @relation(fields: [agency_id], references: [id])
+  parent           Folder?   @relation("FolderToFolder", fields: [parent_folder_id], references: [id])
+  folders          Folder[]  @relation("FolderToFolder")
+  projects         Project[]
 }
 
 model Project {
   id              String            @id @default(uuid())
   name            String
   description     String
-  folder_id       Int
+  folder_id       String
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?
