@@ -6,6 +6,7 @@ import { DeleteFolderDto } from './dto/delete-folder.dto';
 import { DeleteFolderService } from './service/delete-folder.service';
 import { UpdateFolderDto } from './dto/update-folder.dto';
 import { UpdateFolderService } from './service/update-folder.service';
+import { GetFoldersService } from "./service/get-folders.service";
 
 export class FoldersService {
   constructor(private readonly prisma: PrismaClient) {
@@ -44,5 +45,10 @@ export class FoldersService {
       body,
     );
     return updatedFolder;
+  }
+
+  async getFolders(admin_email: string) {
+    const folders = await new GetFoldersService().getFolders(this.prisma, admin_email);
+    return folders;
   }
 }

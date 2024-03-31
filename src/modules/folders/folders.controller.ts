@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { FoldersService } from './folders.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateFolderDto } from './dto/create-folder.dto';
@@ -27,5 +27,12 @@ export class FoldersController {
   async updateFolder(@Req() req: any, @Body() body: UpdateFolderDto) {
     const agency_email = req.userEmail;
     return await this.foldersService.updateFolder(agency_email, body);
+  }
+
+  @Get('/get')
+  @UseGuards(JwtAuthGuard)
+  async getFolders(@Req() req: any) {
+    const agency_email = req.userEmail;
+    return await this.foldersService.getFolders(agency_email);
   }
 }
