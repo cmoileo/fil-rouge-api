@@ -24,7 +24,6 @@ export class CreateFolderService {
           parent_folder_id: body.parent_folder_id,
         },
       });
-      console.log('existingFolder', existingFolder);
       if (existingFolder) {
         return new HttpException('Folder already exists', 400);
       }

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { DeleteFolderDto } from '../dto/delete-folder.dto';
 import { HttpException, Injectable } from '@nestjs/common';
-import { updateChildFolders } from './update-child-folder';
+import { updateChildFolders } from '../utils/update-child-folder.util';
 import { FolderType } from "../../../shared/types/folder/folder.type";
 
 @Injectable()

@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { FoldersService } from './folders.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { DeleteFolderDto } from './dto/delete-folder.dto';
+import { UpdateFolderDto } from './dto/update-folder.dto';
 
 @Controller('folders')
 export class FoldersController {
@@ -19,5 +20,12 @@ export class FoldersController {
   async deleteFolder(@Req() req: any, @Body() body: DeleteFolderDto) {
     const agency_email = req.userEmail;
     return await this.foldersService.deleteFolder(agency_email, body);
+  }
+
+  @Patch('/update')
+  @UseGuards(JwtAuthGuard)
+  async updateFolder(@Req() req: any, @Body() body: UpdateFolderDto) {
+    const agency_email = req.userEmail;
+    return await this.foldersService.updateFolder(agency_email, body);
   }
 }

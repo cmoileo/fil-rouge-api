@@ -1,5 +1,3 @@
-import { AgencyType } from '../agency/agency.type';
-
 export type FolderType = {
   id: string;
   name: string;
