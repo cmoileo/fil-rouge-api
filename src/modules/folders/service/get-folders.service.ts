@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { HttpException } from "@nestjs/common";
-import { FolderType } from "../../../shared/types/folder/folder.type";
+import { PrismaClient } from '@prisma/client';
+import { HttpException } from '@nestjs/common';
+import { FolderType } from '../../../shared/types/folder/folder.type';
 
 export class GetFoldersService {
   async getFolders(
