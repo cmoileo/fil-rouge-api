@@ -1,9 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import CreateProjectService from './service/create-project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 
-@Injectable()
 export class ProjectsService {
   constructor(private readonly prisma: PrismaClient) {
     this.prisma = new PrismaClient();

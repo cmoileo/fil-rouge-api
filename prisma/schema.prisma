@@ -97,12 +97,12 @@ model Folder {
 model Project {
   id              String            @id @default(uuid())
   name            String
-  description     String
-  folder_id       String
+  description     String?
+  folder_id       String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?
-  folder          Folder            @relation(fields: [folder_id], references: [id])
+  folder          Folder?           @relation(fields: [folder_id], references: [id])
   tasks           Task[]
   kanban_states   KanbanState[]
   FavoriteProject FavoriteProject[]

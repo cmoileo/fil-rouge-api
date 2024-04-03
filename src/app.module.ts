@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { FoldersModule } from './modules/folders/folders.module';
-import { CoModule } from './s/co/co.module';
-import { ProjectModule } from './modukes/projects/projects.module';
-import { ProjectModule } from './modules/projects/project.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
-  imports: [AuthModule, RolesModule, FoldersModule, CoModule, ProjectModule],
+  imports: [AuthModule, RolesModule, FoldersModule, ProjectsModule],
 })
 export class AppModule {}
