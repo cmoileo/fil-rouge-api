@@ -32,7 +32,8 @@ export class UpdateProjectService {
       });
       return true;
     } catch (error) {
-      throw new HttpException('Error updating project', 500)
+      console.log(error);
+      throw new HttpException('Error updating project', 500);
     }
   }
 }

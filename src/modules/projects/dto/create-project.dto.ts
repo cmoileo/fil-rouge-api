@@ -10,6 +10,6 @@ export class CreateProjectDto {
   description: string | undefined;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   folder_id: string;
 }
