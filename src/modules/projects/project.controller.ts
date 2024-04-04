@@ -45,4 +45,10 @@ export class ProjectController {
   async getProjects(): Promise<Project[]> {
     return this.projectService.getProjects();
   }
+
+  @Get('/get/:id')
+  async getProjectById(@Req() req: any): Promise<Project | HttpException> {
+    const project_id = req.params.id;
+    return this.projectService.getProjectById(project_id);
+  }
 }

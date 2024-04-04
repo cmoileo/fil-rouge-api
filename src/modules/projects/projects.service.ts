@@ -6,6 +6,7 @@ import { UpdateProjectService } from './service/update-project.service';
 import { DeleteProjectService } from './service/delete-project.service';
 import { GetProjectsService } from './service/get-projects.service';
 import { Project } from '../../shared/types/project/project.type';
+import { GetProjectByIdService } from "./service/get-project-by-id.service";
 
 export class ProjectsService {
   constructor(private readonly prisma: PrismaClient) {
@@ -47,5 +48,9 @@ export class ProjectsService {
 
   async getProjects(): Promise<Project[]> {
     return await new GetProjectsService(this.prisma).execute();
+  }
+
+  async getProjectById(project_id: string): Promise<Project | HttpException> {
+    return await new GetProjectByIdService(this.prisma, project_id).execute();
   }
 }

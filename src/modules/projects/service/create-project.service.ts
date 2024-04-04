@@ -19,6 +19,15 @@ export default class CreateProjectService {
       if (!agency) {
         return new HttpException('Agency not found', 404);
       }
+      const existingProject = await this.prisma.project.findFirst({
+        where: {
+          name: this.body.name,
+          folder_id: this.body.folder_id,
+        },
+      });
+      if (existingProject) {
+        return new HttpException('Project already exists', 400);
+      }
       await this.prisma.project.create({
         data: {
           name: this.body.name,
