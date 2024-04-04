@@ -2,7 +2,8 @@ import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import CreateProjectService from './service/create-project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectService } from "./service/update-project.service";
+import { UpdateProjectService } from './service/update-project.service';
+import { DeleteProjectService } from './service/delete-project.service';
 
 export class ProjectsService {
   constructor(private readonly prisma: PrismaClient) {
@@ -33,5 +34,12 @@ export class ProjectsService {
       project_id
     ).execute();
     return updatedProject;
+  }
+  async deleteProject(project_id: string): Promise<boolean | HttpException> {
+    const deletedProject = await new DeleteProjectService(
+      this.prisma,
+      project_id,
+    ).execute();
+    return deletedProject;
   }
 }

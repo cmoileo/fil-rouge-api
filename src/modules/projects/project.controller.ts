@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
-  HttpException, Patch,
+  Delete,
+  HttpException,
+  Patch,
   Post,
   Req,
-  UseGuards
-} from "@nestjs/common";
+  UseGuards,
+} from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -31,5 +33,11 @@ export class ProjectController {
     const agency_email = req.userEmail;
     const project_id = req.params.id;
     return this.projectService.updateProject(agency_email, body, project_id);
+  }
+
+  @Delete('/delete/:id')
+  async deleteProject(@Req() req: any): Promise<boolean | HttpException> {
+    const project_id = req.params.id;
+    return this.projectService.deleteProject(project_id);
   }
 }
