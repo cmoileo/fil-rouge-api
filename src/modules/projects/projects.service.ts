@@ -4,6 +4,8 @@ import CreateProjectService from './service/create-project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectService } from './service/update-project.service';
 import { DeleteProjectService } from './service/delete-project.service';
+import { GetProjectsService } from './service/get-projects.service';
+import { Project } from '../../shared/types/project/project.type';
 
 export class ProjectsService {
   constructor(private readonly prisma: PrismaClient) {
@@ -31,7 +33,7 @@ export class ProjectsService {
       this.prisma,
       agency_email,
       body,
-      project_id
+      project_id,
     ).execute();
     return updatedProject;
   }
@@ -41,5 +43,9 @@ export class ProjectsService {
       project_id,
     ).execute();
     return deletedProject;
+  }
+
+  async getProjects(): Promise<Project[]> {
+    return await new GetProjectsService(this.prisma).execute();
   }
 }

@@ -1,16 +1,17 @@
 import {
   Body,
   Controller,
-  Delete,
+  Delete, Get,
   HttpException,
   Patch,
   Post,
   Req,
-  UseGuards,
-} from '@nestjs/common';
+  UseGuards
+} from "@nestjs/common";
 import { ProjectsService } from './projects.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { Project } from "../../shared/types/project/project.type";
 
 @UseGuards(JwtAuthGuard)
 @Controller('projects')
@@ -39,5 +40,9 @@ export class ProjectController {
   async deleteProject(@Req() req: any): Promise<boolean | HttpException> {
     const project_id = req.params.id;
     return this.projectService.deleteProject(project_id);
+  }
+  @Get('/get')
+  async getProjects(): Promise<Project[]> {
+    return this.projectService.getProjects();
   }
 }
