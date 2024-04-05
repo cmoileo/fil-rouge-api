@@ -6,7 +6,7 @@ import { UpdateProjectService } from './service/update-project.service';
 import { DeleteProjectService } from './service/delete-project.service';
 import { GetProjectsService } from './service/get-projects.service';
 import { Project } from '../../shared/types/project/project.type';
-import { GetProjectByIdService } from "./service/get-project-by-id.service";
+import { GetProjectByIdService } from './service/get-project-by-id.service';
 
 export class ProjectsService {
   constructor(private readonly prisma: PrismaClient) {

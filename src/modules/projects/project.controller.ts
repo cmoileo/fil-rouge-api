@@ -1,17 +1,18 @@
 import {
   Body,
   Controller,
-  Delete, Get,
+  Delete,
+  Get,
   HttpException,
   Patch,
   Post,
   Req,
-  UseGuards
-} from "@nestjs/common";
+  UseGuards,
+} from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
-import { Project } from "../../shared/types/project/project.type";
+import { Project } from '../../shared/types/project/project.type';
 
 @UseGuards(JwtAuthGuard)
 @Controller('projects')
