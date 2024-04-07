@@ -40,6 +40,7 @@ model Agency {
   pictures        Picture[]
   userRole        UserRole?
   PendingEmployee PendingEmployee[]
+  TaskState       TaskState[]
 }
 
 model PendingEmployee {
@@ -62,14 +63,14 @@ model User {
   agency          Agency            @relation(fields: [agency_id], references: [id])
   roles_users     RolesUsers[]
   created_tasks   Task[]
-  task_users      TaskUser[]
+  assigned_tasks  AssignedTask[]
   Comment         Comment[]
   Picture         Picture[]
   FavoriteProject FavoriteProject[]
   userRole        UserRole?
 }
 
-model TaskUser {
+model AssignedTask {
   id         Int       @id @default(autoincrement())
   task_id    String
   employe_id String
@@ -111,28 +112,40 @@ model Project {
 model Task {
   id                  String         @id @default(uuid())
   name                String
-  description         String
-  assigned            Int
-  progress_percentage Int
-  finishing_date      DateTime
-  starting_date       DateTime
-  is_priority         Priority
-  is_finished         Boolean
-  project_id          String
-  kanban_state_id     Int
+  description         String?
+  progress_percentage Int            @default(0)
+  finishing_date      DateTime?
+  starting_date       DateTime?
+  is_priority         Priority?
+  project_id          String?
+  kanban_state_id     Int?
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
   deletedAt           DateTime?
-  project             Project        @relation(fields: [project_id], references: [id])
-  kanban_state        KanbanState    @relation(fields: [kanban_state_id], references: [id])
-  task_users          TaskUser[]
+  project             Project?       @relation(fields: [project_id], references: [id])
+  kanban_state        KanbanState?   @relation(fields: [kanban_state_id], references: [id])
+  task_users          AssignedTask[]
   task_categories     TaskCategory[]
   comments            Comment[]
   pictures            Picture[]
-  Agency              Agency?        @relation(fields: [agencyId], references: [id])
-  agencyId            String?
-  User                User?          @relation(fields: [userId], references: [id])
-  userId              String?
+  Agency              Agency         @relation(fields: [agencyId], references: [id])
+  agencyId            String
+  User                User           @relation(fields: [userId], references: [id])
+  userId              String
+  task_state_id       String?
+  TaskState           TaskState?     @relation(fields: [task_state_id], references: [id])
+}
+
+model TaskState {
+  id        String    @id @default(uuid())
+  state     String
+  order     Int
+  agency_id String
+  Agency    Agency    @relation(fields: [agency_id], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  Task      Task[]
 }
 
 model Role {
