@@ -46,7 +46,7 @@ export class CreateTaskService {
       }
       return true;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return new HttpException('Internal Server Error', 500);
     }
   }

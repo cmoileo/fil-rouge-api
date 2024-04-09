@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   HttpException,
+  Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -9,6 +11,7 @@ import {
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tasks')
@@ -22,5 +25,15 @@ export class TasksController {
   ): Promise<boolean | HttpException> {
     const user_id = req.userEmail;
     return this.tasksService.createTask(user_id, body);
+  }
+
+  @Patch('/update/:task_id')
+  async updateTask(
+    @Param('task_id') task_id: string,
+    @Body() body: UpdateTaskDto,
+    @Req() req: any,
+  ): Promise<boolean | HttpException> {
+    const user_id = req.userEmail;
+    return this.tasksService.updateTask(user_id, task_id, body);
   }
 }
