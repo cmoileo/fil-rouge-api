@@ -1,13 +1,13 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   HttpException,
   Param,
   Patch,
   Post,
   Req,
-  UseGuards,
-} from '@nestjs/common';
+  UseGuards
+} from "@nestjs/common";
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -35,5 +35,14 @@ export class TasksController {
   ): Promise<boolean | HttpException> {
     const user_id = req.userEmail;
     return this.tasksService.updateTask(user_id, task_id, body);
+  }
+
+  @Delete('/delete/:task_id')
+  async deleteTask(
+    @Param('task_id') task_id: string,
+    @Req() req: any,
+  ): Promise<boolean | HttpException> {
+    const user_id = req.userEmail;
+    return this.tasksService.deleteTask(user_id, task_id);
   }
 }

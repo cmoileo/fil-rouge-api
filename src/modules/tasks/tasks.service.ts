@@ -4,6 +4,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { CreateTaskService } from './service/create-task.service';
 import { UpdateTaskService } from './service/update-task.service';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { DeleteTaskService } from "./service/delete-task.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -23,5 +24,11 @@ export class TasksService {
     body: UpdateTaskDto,
   ): Promise<boolean | HttpException> {
     return new UpdateTaskService(this.prisma, user_id, task_id, body).execute();
+  }
+  async deleteTask(
+    user_id: string,
+    task_id: string,
+  ): Promise<boolean | HttpException> {
+    return new DeleteTaskService(this.prisma, user_id, task_id).execute();
   }
 }
