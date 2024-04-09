@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete, Get,
   HttpException,
   Param,
   Patch,
@@ -44,5 +45,14 @@ export class TasksController {
   ): Promise<boolean | HttpException> {
     const user_id = req.userEmail;
     return this.tasksService.deleteTask(user_id, task_id);
+  }
+
+  @Get('/get/:task_id')
+  async getTaskById(
+    @Param('task_id') task_id: string,
+    @Req() req: any,
+  ): Promise<any> {
+    const user_id = req.userEmail;
+    return this.tasksService.getTaskById(user_id, task_id);
   }
 }

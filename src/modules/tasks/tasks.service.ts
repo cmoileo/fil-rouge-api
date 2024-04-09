@@ -5,6 +5,8 @@ import { CreateTaskService } from './service/create-task.service';
 import { UpdateTaskService } from './service/update-task.service';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { DeleteTaskService } from "./service/delete-task.service";
+import { TaskType } from "../../shared/types/tasks/task.type";
+import { GetTaskByIdService } from "./service/get-task-by-id.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -30,5 +32,11 @@ export class TasksService {
     task_id: string,
   ): Promise<boolean | HttpException> {
     return new DeleteTaskService(this.prisma, user_id, task_id).execute();
+  }
+  async getTaskById(
+    user_id: string,
+    task_id: string,
+  ): Promise<TaskType | HttpException> {
+    return new GetTaskByIdService(this.prisma, user_id, task_id).execute();
   }
 }
