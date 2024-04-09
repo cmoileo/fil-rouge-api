@@ -30,7 +30,7 @@ export class CreateTaskService {
       const createdTask = await this.prisma.task.create({
         data: {
           name: this.body.name,
-          userId: this.body.user_id,
+          userId: user.id,
           agencyId: agency.id,
         },
       });
@@ -46,6 +46,7 @@ export class CreateTaskService {
       }
       return true;
     } catch (error) {
+      console.log(error)
       return new HttpException('Internal Server Error', 500);
     }
   }
