@@ -5,20 +5,33 @@ import { HttpException } from '@nestjs/common';
 export class CreateTaskService {
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly agency_id: string,
+    private readonly user_id: string,
     private body: CreateTaskDto,
   ) {}
 
   async createTask(): Promise<boolean | HttpException> {
     try {
-      if (!this.agency_id) {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: this.user_id,
+        },
+      });
+      if (!user) {
+        return new HttpException('User not found', 404);
+      }
+      const agency = await this.prisma.agency.findUnique({
+        where: {
+          id: user.agency_id,
+        },
+      });
+      if (!agency) {
         return new HttpException('Agency not found', 404);
       }
-      await this.prisma.task.create({
+      const createdTask = await this.prisma.task.create({
         data: {
           name: this.body.name,
           userId: this.body.user_id,
-          agencyId: this.agency_id,
+          agencyId: agency.id,
         },
       });
       if (this.body.assigned_users_id) {
@@ -26,7 +39,7 @@ export class CreateTaskService {
           await this.prisma.assignedTask.create({
             data: {
               employe_id: assigned_user_id,
-              task_id: this.body.user_id,
+              task_id: createdTask.id,
             },
           });
         }
