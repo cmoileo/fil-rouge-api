@@ -1,18 +1,20 @@
 import {
   Body,
   Controller,
-  Delete, Get,
+  Delete,
+  Get,
   HttpException,
   Param,
   Patch,
   Post,
   Req,
-  UseGuards
-} from "@nestjs/common";
+  UseGuards,
+} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskType } from "../../shared/types/tasks/task.type";
 
 @UseGuards(JwtAuthGuard)
 @Controller('tasks')
@@ -54,5 +56,11 @@ export class TasksController {
   ): Promise<any> {
     const user_id = req.userEmail;
     return this.tasksService.getTaskById(user_id, task_id);
+  }
+
+  @Get('/get-all')
+  async getAllTasks(@Req() req: any): Promise<TaskType[] | HttpException> {
+    const user_email = req.userEmail;
+    return this.tasksService.getAllTasks(user_email);
   }
 }

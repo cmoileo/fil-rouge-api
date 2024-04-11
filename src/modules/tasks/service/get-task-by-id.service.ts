@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { HttpException } from "@nestjs/common";
-import { TaskType } from "../../../shared/types/tasks/task.type";
+import { HttpException } from '@nestjs/common';
+import { TaskType } from '../../../shared/types/tasks/task.type';
 
 export class GetTaskByIdService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly user_id: string,
-    private readonly task_id: string
+    private readonly task_id: string,
   ) {}
 
   async execute(): Promise<TaskType | HttpException> {

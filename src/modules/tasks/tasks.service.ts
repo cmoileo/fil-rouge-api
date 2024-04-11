@@ -7,6 +7,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { DeleteTaskService } from "./service/delete-task.service";
 import { TaskType } from "../../shared/types/tasks/task.type";
 import { GetTaskByIdService } from "./service/get-task-by-id.service";
+import { GetAllTasksService } from "./service/get-all-tasks.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -38,5 +39,9 @@ export class TasksService {
     task_id: string,
   ): Promise<TaskType | HttpException> {
     return new GetTaskByIdService(this.prisma, user_id, task_id).execute();
+  }
+
+  async getAllTasks(user_email: string): Promise<TaskType[] | HttpException> {
+    return new GetAllTasksService(this.prisma, user_email).execute();
   }
 }
