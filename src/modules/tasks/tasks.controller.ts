@@ -14,7 +14,7 @@ import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateTaskDto } from './dto/tasks/create-task.dto';
 import { UpdateTaskDto } from './dto/tasks/update-task.dto';
-import { TaskType } from "../../shared/types/tasks/task.type";
+import { TaskType } from '../../shared/types/tasks/task.type';
 
 @UseGuards(JwtAuthGuard)
 @Controller('tasks')
