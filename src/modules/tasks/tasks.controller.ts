@@ -99,4 +99,13 @@ export class TasksController {
     const user_email = req.userEmail;
     return this.tasksService.getCommentsByTaskId(user_email, task_id);
   }
+
+  @Delete('/delete-comment/:comment_id')
+  async deleteCommentById(
+    @Param('comment_id') comment_id: string,
+    @Req() req: any,
+  ): Promise<boolean | HttpException> {
+    const user_email = req.userEmail;
+    return this.tasksService.deleteCommentById(user_email, comment_id);
+  }
 }

@@ -13,6 +13,7 @@ import { CreateCommentDto } from "./dto/comments/create-comment.dto";
 import { EditCommentService } from "./service/comments/edit-comment.service";
 import { GetCommentByIdService } from "./service/comments/get-comment-by-id.service";
 import { GetCommentsByTaskIdService } from "./service/comments/get-comments-by-task-id.service";
+import { DeleteCommentByIdService } from "./service/comments/delete-comment-by-id.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -81,6 +82,16 @@ export class TasksService {
       this.prisma,
       user_email,
       task_id,
+    ).execute();
+  }
+  async deleteCommentById(
+    user_id: string,
+    comment_id: string,
+  ): Promise<boolean | HttpException> {
+    return new DeleteCommentByIdService(
+      this.prisma,
+      user_id,
+      comment_id,
     ).execute();
   }
 }
