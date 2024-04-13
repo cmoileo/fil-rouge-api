@@ -53,4 +53,16 @@ export class TasksService {
   ): Promise<boolean | HttpException> {
     return new AddCommentService(this.prisma, user_id, task_id, body).execute();
   }
+  async editComment(
+    user_id: string,
+    comment_id: string,
+    body: CreateCommentDto,
+  ): Promise<boolean | HttpException> {
+    return new AddCommentService(
+      this.prisma,
+      user_id,
+      comment_id,
+      body,
+    ).execute();
+  }
 }

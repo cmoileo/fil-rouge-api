@@ -72,4 +72,13 @@ export class TasksController {
     const user_id = req.userEmail;
     return this.tasksService.addCommentToTask(user_id, task_id, body);
   }
+  @Patch('/edit-comment/:comment_id')
+  async editComment(
+    @Param('comment_id') comment_id: string,
+    @Body() body: any,
+    @Req() req: any,
+  ): Promise<boolean | HttpException> {
+    const user_id = req.userEmail;
+    return this.tasksService.editComment(user_id, comment_id, body);
+  }
 }
