@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { CreateTaskDto } from './dto/tasks/create-task.dto';
+import { UpdateTaskDto } from './dto/tasks/update-task.dto';
 import { TaskType } from "../../shared/types/tasks/task.type";
 
 @UseGuards(JwtAuthGuard)
@@ -62,5 +62,14 @@ export class TasksController {
   async getAllTasks(@Req() req: any): Promise<TaskType[] | HttpException> {
     const user_email = req.userEmail;
     return this.tasksService.getAllTasks(user_email);
+  }
+  @Post('/add-comment/:task_id')
+  async addCommentToTask(
+    @Param('task_id') task_id: string,
+    @Body() body: any,
+    @Req() req: any,
+  ): Promise<boolean | HttpException> {
+    const user_id = req.userEmail;
+    return this.tasksService.addCommentToTask(user_id, task_id, body);
   }
 }

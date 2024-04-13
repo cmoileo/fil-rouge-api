@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { TaskType } from '../../../shared/types/tasks/task.type';
+import { TaskType } from '../../../../shared/types/tasks/task.type';
 import { HttpException } from '@nestjs/common';
 
 export class GetAllTasksService {

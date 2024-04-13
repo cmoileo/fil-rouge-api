@@ -1,4 +1,4 @@
-import { UpdateTaskDto } from '../dto/update-task.dto';
+import { UpdateTaskDto } from '../../dto/tasks/update-task.dto';
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
 

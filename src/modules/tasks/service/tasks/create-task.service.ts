@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { CreateTaskDto } from '../dto/create-task.dto';
+import { CreateTaskDto } from '../../dto/tasks/create-task.dto';
 import { HttpException } from '@nestjs/common';
 
 export class CreateTaskService {
