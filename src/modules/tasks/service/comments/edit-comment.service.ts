@@ -36,6 +36,7 @@ export class EditCommentService {
       });
       return true;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Internal server error', 500);
     }
   }

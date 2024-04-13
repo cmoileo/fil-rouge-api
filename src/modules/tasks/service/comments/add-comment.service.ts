@@ -16,7 +16,6 @@ export class AddCommentService {
           email: this.user_email,
         },
       });
-      console.log(user);
       if (!user) {
         throw new HttpException('User not found', 404);
       }
@@ -30,7 +29,6 @@ export class AddCommentService {
       });
       return true;
     } catch (error) {
-      // console.log(error)
       throw new HttpException('Internal server error', 500);
     }
   }

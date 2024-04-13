@@ -10,6 +10,7 @@ import { GetTaskByIdService } from './service/tasks/get-task-by-id.service';
 import { GetAllTasksService } from './service/tasks/get-all-tasks.service';
 import { AddCommentService } from "./service/comments/add-comment.service";
 import { CreateCommentDto } from "./dto/comments/create-comment.dto";
+import { EditCommentService } from "./service/comments/edit-comment.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -58,7 +59,7 @@ export class TasksService {
     comment_id: string,
     body: CreateCommentDto,
   ): Promise<boolean | HttpException> {
-    return new AddCommentService(
+    return new EditCommentService(
       this.prisma,
       user_id,
       comment_id,
