@@ -85,12 +85,12 @@ export class TasksService {
     ).execute();
   }
   async deleteCommentById(
-    user_id: string,
+    user_email: string,
     comment_id: string,
   ): Promise<boolean | HttpException> {
     return new DeleteCommentByIdService(
       this.prisma,
-      user_id,
+      user_email,
       comment_id,
     ).execute();
   }

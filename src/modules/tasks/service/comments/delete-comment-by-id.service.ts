@@ -19,6 +19,7 @@ export class DeleteCommentByIdService {
           id: this.comment_id,
         },
       });
+      console.log(comment, this.comment_id);
       if (comment.agencyId !== user.agency_id) {
         throw new HttpException('Unauthorized', 401);
       }
@@ -29,6 +30,7 @@ export class DeleteCommentByIdService {
       });
       return true;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Internal server error', 500);
     }
   }
