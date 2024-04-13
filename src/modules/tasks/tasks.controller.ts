@@ -81,4 +81,22 @@ export class TasksController {
     const user_id = req.userEmail;
     return this.tasksService.editComment(user_id, comment_id, body);
   }
+
+  @Get('/get-comment/:comment_id')
+  async GetCommentById(
+    @Param('comment_id') comment_id: string,
+    @Req() req: any,
+  ): Promise<any> {
+    const user_email = req.userEmail;
+    return this.tasksService.GetCommentById(user_email, comment_id);
+  }
+
+  @Get('/get-comments/:task_id')
+  async getCommentsByTaskId(
+    @Param('task_id') task_id: string,
+    @Req() req: any,
+  ): Promise<any> {
+    const user_email = req.userEmail;
+    return this.tasksService.getCommentsByTaskId(user_email, task_id);
+  }
 }

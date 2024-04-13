@@ -11,6 +11,8 @@ import { GetAllTasksService } from './service/tasks/get-all-tasks.service';
 import { AddCommentService } from "./service/comments/add-comment.service";
 import { CreateCommentDto } from "./dto/comments/create-comment.dto";
 import { EditCommentService } from "./service/comments/edit-comment.service";
+import { GetCommentByIdService } from "./service/comments/get-comment-by-id.service";
+import { GetCommentsByTaskIdService } from "./service/comments/get-comments-by-task-id.service";
 
 export class TasksService {
   constructor(private readonly prisma: PrismaClient) {
@@ -64,6 +66,21 @@ export class TasksService {
       user_id,
       comment_id,
       body,
+    ).execute();
+  }
+
+  async GetCommentById(user_email: string, comment_id: string): Promise<any> {
+    return new GetCommentByIdService(
+      this.prisma,
+      user_email,
+      comment_id,
+    ).execute();
+  }
+  async getCommentsByTaskId(user_email: string, task_id: string): Promise<any> {
+    return new GetCommentsByTaskIdService(
+      this.prisma,
+      user_email,
+      task_id,
     ).execute();
   }
 }

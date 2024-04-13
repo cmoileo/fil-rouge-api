@@ -5,8 +5,8 @@ import { CommentType } from "../../../../shared/types/comment/comment.type";
 export class GetCommentByIdService {
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly comment_id: string,
     private readonly user_email: string,
+    private readonly comment_id: string,
   ) {}
 
   async execute(): Promise<CommentType | HttpException> {
@@ -36,6 +36,7 @@ export class GetCommentByIdService {
       }
       return comment;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Internal server error', 500);
     }
   }
