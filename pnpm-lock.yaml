@@ -59,6 +59,9 @@ dependencies:
   nodemailer:
     specifier: ^6.9.13
     version: 6.9.13
+  optional:
+    specifier: ^0.1.4
+    version: 0.1.4
   prisma:
     specifier: ^5.11.0
     version: 5.11.0
@@ -6632,6 +6635,10 @@ packages:
     dependencies:
       is-docker: 2.2.1
       is-wsl: 2.2.0
+    dev: false
+
+  /optional@0.1.4:
+    resolution: {integrity: sha512-gtvrrCfkE08wKcgXaVwQVgwEQ8vel2dc5DDBn9RLQZ3YtmtkBss6A2HY6BnJH4N/4Ku97Ri/SF8sNWE2225WJw==}
     dev: false
 
   /optionator@0.9.3:
