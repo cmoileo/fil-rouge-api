@@ -9,7 +9,7 @@ class StorageService {
     process.env.SUPABASE_API_KEY,
   );
 
-  async uploadFile(file: any) {
+  async uploadFile(file: any): Promise<string> {
     let compressedBuffer = file.buffer;
     while (compressedBuffer.length > 512000) {
       compressedBuffer = await this.compressFile(compressedBuffer);
@@ -20,7 +20,18 @@ class StorageService {
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+    this.getSignedUrl(data.path);
+    return data.path;
+  }
+  async getSignedUrl(imagePath: string): Promise<string> {
+    const { data: signedUrl, error } = await this.supabase.storage
+      .from('storage')
+      .createSignedUrl(imagePath, 604800);
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log(signedUrl);
+    return signedUrl?.signedUrl || '';
   }
 
   private async compressFile(buffer: Buffer): Promise<Buffer> {
