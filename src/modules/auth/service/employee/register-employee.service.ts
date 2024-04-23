@@ -3,6 +3,8 @@ import GenerateJwt from '../../../../shared/utils/jwt-token/generate-jwt';
 import HashPassword from '../../../../shared/utils/hash-password';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { RegisterEmployeeDto } from '../../dto/employee/register-employee.dto';
+import { extname } from 'path';
+import storageService from '../../../../shared/utils/supabase/storage.service';
 
 export default class RegisterEmployeeService {
   constructor(
@@ -45,6 +47,12 @@ export default class RegisterEmployeeService {
           HttpStatus.BAD_REQUEST,
         );
       }
+      let imageUrl: { name: string; image_url: string } | null;
+      let image_key: string | null;
+      if (this.body.avatar) {
+        imageUrl = await storageService.uploadFile(this.body.avatar);
+        image_key = `${Date.now()}${extname(this.body.avatar.originalname)}`;
+      }
       const hashedPassword = await new HashPassword(this.body.password).hash();
       const newEmployee = await this.prisma.user.create({
         data: {
@@ -53,6 +61,8 @@ export default class RegisterEmployeeService {
           email: this.body.email,
           password: hashedPassword,
           agency_id: agency_id,
+          profile_picture_url: imageUrl ? imageUrl.image_url : null,
+          profile_picture_key: imageUrl ? image_key : null,
         },
       });
       if (!newEmployee) {

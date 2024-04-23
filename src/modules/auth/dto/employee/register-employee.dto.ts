@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsIn,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -16,6 +17,9 @@ export class RegisterEmployeeDto {
   @IsString()
   @IsNotEmpty()
   firstname: string;
+
+  @IsOptional()
+  avatar: any;
 
   @IsString()
   @IsNotEmpty()
