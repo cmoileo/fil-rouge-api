@@ -36,7 +36,7 @@ export class AssignJobJob {
       if (existingJob) {
         return new HttpException('Job already assigned', 400);
       }
-      await this.prisma.jobs.Users.create({
+      await this.prisma.jobsUsers.create({
         data: {
           job_id: this.body.job_id,
           user_id: this.body.user_id,

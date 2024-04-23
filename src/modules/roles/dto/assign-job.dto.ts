@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AssignRoleDto {
+export class AssignJobDto {
   @IsString()
   @IsNotEmpty()
-  role_id: string;
+  job_id: string;
 
   @IsString()
   @IsNotEmpty()
