@@ -11,14 +11,14 @@ export class UpdateJobService {
 
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.email },
       });
-      if (!agency) {
+      if (!user) {
         throw new HttpException('Agency not found', 404);
       }
       const job = await this.prisma.job.findFirst({
-        where: { name: this.body.currentName, agency_id: agency.id },
+        where: { name: this.body.currentName, agency_id: user.agency_id },
       });
       if (!job) {
         throw new HttpException('Job not found', 404);

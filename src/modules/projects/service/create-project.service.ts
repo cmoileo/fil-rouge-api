@@ -5,19 +5,22 @@ import { HttpException } from '@nestjs/common';
 export default class CreateProjectService {
   constructor(
     private readonly prisma: PrismaClient,
-    private readonly agency_email: string,
+    private readonly user_email: string,
     private readonly body: CreateProjectDto,
   ) {}
 
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: {
-          email: this.agency_email,
+          email: this.user_email,
         },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
+      }
+      if (user.role !== 'OWNER' || 'ADMIN') {
+        return new HttpException('Unauthorized', 401);
       }
       const existingProject = await this.prisma.project.findFirst({
         where: {
@@ -33,6 +36,7 @@ export default class CreateProjectService {
           name: this.body.name,
           description: this.body.description,
           folder_id: this.body.folder_id,
+          agency_id: user.agency_id,
         },
       });
       return true;

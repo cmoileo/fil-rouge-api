@@ -38,6 +38,7 @@ model Agency {
   pictures        Picture[]
   PendingEmployee PendingEmployee[]
   TaskState       TaskState[]
+  Project         Project[]
 }
 
 model PendingEmployee {
@@ -98,6 +99,8 @@ model Project {
   name            String
   description     String?
   folder_id       String?
+  agency_id       String
+  agency          Agency            @relation(fields: [agency_id], references: [id])
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?

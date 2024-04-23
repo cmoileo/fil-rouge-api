@@ -15,16 +15,10 @@ export class PasswordRecoveryService {
       const user = await this.prisma.user.findUnique({
         where: { email: this.body.email },
       });
-      const agency = await this.prisma.agency.findUnique({
-        where: { email: this.body.email },
-      });
-      if (!user && !agency) {
+      if (!user) {
         throw new HttpException('User not found', 404);
       }
-      if (
-        (user && user.password !== this.id) ||
-        (agency && agency.password !== this.id)
-      ) {
+      if (user && user.password !== this.id) {
         throw new HttpException('Invalid token', 400);
       }
       if (this.body.password !== this.body.passwordConfirm) {
@@ -35,11 +29,6 @@ export class PasswordRecoveryService {
       ).hash();
       if (user) {
         await this.prisma.user.update({
-          where: { email: this.body.email },
-          data: { password: hashedNewPassword },
-        });
-      } else {
-        await this.prisma.agency.update({
           where: { email: this.body.email },
           data: { password: hashedNewPassword },
         });

@@ -11,16 +11,15 @@ export class RemoveJobService {
 
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.agencyEmail },
       });
-      if (!agency) {
-        return new HttpException('Agency not found', 404);
+      if (!user) {
+        return new HttpException('User not found', 404);
       }
       const jobs_user = await this.prisma.jobsUsers.findFirst({
-        where: { id: this.body.jobs_user_id, agencyId: agency.id },
+        where: { id: this.body.jobs_user_id, agencyId: user.agency_id },
       });
-      console.log(this.body.jobs_user_id, agency.id);
       if (!jobs_user) {
         return new HttpException('Job not found', 404);
       }

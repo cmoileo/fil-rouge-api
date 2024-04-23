@@ -9,14 +9,14 @@ export class GetJobService {
   ) {}
   async execute(): Promise<Job[] | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.email },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
       }
       const jobs = await this.prisma.job.findMany({
-        where: { agency_id: agency.id },
+        where: { agency_id: user.agency_id },
       });
       return jobs;
     } catch (error) {

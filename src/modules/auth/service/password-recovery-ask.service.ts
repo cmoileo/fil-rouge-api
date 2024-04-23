@@ -17,13 +17,8 @@ export class PasswordRecoveryAskService {
           email: this.body.email,
         },
       });
-      const existingAgency = await this.prisma.agency.findUnique({
-        where: {
-          email: this.body.email,
-        },
-      });
 
-      if (!existingUser && !existingAgency) {
+      if (!existingUser) {
         throw new HttpException('User not found', 404);
       }
       const pendingPassword = Math.random().toString(36).substring(2);
@@ -33,15 +28,6 @@ export class PasswordRecoveryAskService {
 
       if (existingUser) {
         await this.prisma.user.update({
-          where: {
-            email: this.body.email,
-          },
-          data: {
-            password: hashedPendingPassword,
-          },
-        });
-      } else if (existingAgency) {
-        await this.prisma.agency.update({
           where: {
             email: this.body.email,
           },

@@ -11,16 +11,16 @@ export class AssignJobJob {
 
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.agencyEmail },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
       }
       const employee = await this.prisma.user.findUnique({
         where: {
           id: this.body.user_id,
-          agency_id: agency.id,
+          agency_id: user.agency_id,
         },
       });
       if (!employee) {
@@ -30,7 +30,7 @@ export class AssignJobJob {
         where: {
           job_id: this.body.job_id,
           user_id: this.body.user_id,
-          agencyId: agency.id,
+          agencyId: user.agency_id,
         },
       });
       if (existingJob) {
@@ -40,7 +40,7 @@ export class AssignJobJob {
         data: {
           job_id: this.body.job_id,
           user_id: this.body.user_id,
-          agencyId: agency.id,
+          agencyId: user.agency_id,
         },
       });
       return true;

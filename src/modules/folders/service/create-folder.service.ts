@@ -9,18 +9,21 @@ export class CreateFolderService {
     body: CreateFolderDto,
   ): Promise<boolean | HttpException> {
     try {
-      const agency = await prisma.agency.findFirst({
+      const user = await prisma.user.findFirst({
         where: {
           email: admin_email,
         },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
+      }
+      if (user.role !== 'OWNER' || 'ADMIN') {
+        return new HttpException('Unauthorized', 401);
       }
       const existingFolder = await prisma.folder.findFirst({
         where: {
           name: body.name,
-          agency_id: agency.id,
+          agency_id: user.agency_id,
           parent_folder_id: body.parent_folder_id,
         },
       });
@@ -31,7 +34,7 @@ export class CreateFolderService {
         data: {
           name: body.name,
           parent_folder_id: body.parent_folder_id,
-          agency_id: agency.id,
+          agency_id: user.agency_id,
         },
       });
       return true;

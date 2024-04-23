@@ -11,14 +11,14 @@ export class CreateJobService {
 
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.email },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
       }
       const isAlreadyJob = await this.prisma.job.findFirst({
-        where: { name: this.body.name, agency_id: agency.id },
+        where: { name: this.body.name, agency_id: user.agency_id },
       });
       console.log(isAlreadyJob);
       if (isAlreadyJob) {
@@ -28,7 +28,7 @@ export class CreateJobService {
         data: {
           name: this.body.name,
           color: this.body.color,
-          agency_id: agency.id,
+          agency_id: user.agency_id,
         },
       });
       return true;

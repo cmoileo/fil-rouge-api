@@ -13,7 +13,7 @@ import { RolesService } from './roles.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
-import { AssignRoleDto } from './dto/assign-job.dto';
+import { AssignJobDto } from './dto/assign-job.dto';
 import { RemoveJobDto } from './dto/remove-job.dto';
 
 @Controller('jobs')
@@ -49,7 +49,7 @@ export class RolesController {
 
   @Post('/employee/assign')
   @UseGuards(JwtAuthGuard)
-  async assignRoleToEmployee(@Req() req: any, @Body() body: AssignRoleDto) {
+  async assignRoleToEmployee(@Req() req: any, @Body() body: AssignJobDto) {
     const agencyEmail = req.userEmail;
     return await this.rolesService.assignRoleToEmployee(agencyEmail, body);
   }

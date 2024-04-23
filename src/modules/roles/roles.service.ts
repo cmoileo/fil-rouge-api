@@ -1,13 +1,13 @@
 import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { CreateJobDto } from './dto/create-job.dto';
-import { CreateRoleService } from './service/crud-action/create-job.service';
+import { CreateJobService } from './service/crud-action/create-job.service';
 import { UpdateJobService } from './service/crud-action/update-job.service';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { DeleteJobService } from './service/crud-action/delete-job.service';
-import { Role } from '../../shared/types/jobs/job.type';
+import { Job } from '../../shared/types/jobs/job.type';
 import { GetJobService } from './service/crud-action/get-job.service';
-import { AssignRoleJob } from './service/assign-to-employee/assign-role.job.service';
+import { AssignJobJob } from './service/assign-to-employee/assign-role.job.service';
 import { RemoveJobService } from './service/assign-to-employee/remove-job.service';
 
 export class RolesService {
@@ -15,8 +15,8 @@ export class RolesService {
     this.prisma = new PrismaClient();
   }
 
-  async getRoles(userEmail: string): Promise<Role[] | HttpException> {
-    const roles: Role[] | HttpException = await new GetJobService(
+  async getRoles(userEmail: string): Promise<Job[] | HttpException> {
+    const roles: Job[] | HttpException = await new GetJobService(
       this.prisma,
       userEmail,
     ).execute();
@@ -27,7 +27,7 @@ export class RolesService {
     userEmail: string,
     body: CreateJobDto,
   ): Promise<boolean | HttpException> {
-    const createdRole = await new CreateRoleService(
+    const createdRole = await new CreateJobService(
       this.prisma,
       userEmail,
       body,
@@ -59,7 +59,7 @@ export class RolesService {
     agencyEmail: string,
     body: any,
   ): Promise<boolean | HttpException> {
-    const assignedRole = await new AssignRoleJob(
+    const assignedRole = await new AssignJobJob(
       this.prisma,
       agencyEmail,
       body,
