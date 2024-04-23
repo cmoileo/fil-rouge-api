@@ -23,8 +23,6 @@ export default class RegisterAgencyService {
       const newAgency = await this.prisma.agency.create({
         data: {
           name: this.body.name,
-          email: this.body.email,
-          password: hashedPassword,
           house_number: this.body.house_number,
           street: this.body.street,
           city: this.body.city,
@@ -35,6 +33,22 @@ export default class RegisterAgencyService {
         },
       });
 
+      const newUser = await this.prisma.user.create({
+        data: {
+          email: this.body.email,
+          password: hashedPassword,
+          agency_id: newAgency.id,
+          firstname: this.body.firstname,
+          lastname: this.body.lastname,
+          role: 'OWNER',
+        },
+      });
+      if (!newUser) {
+        throw new HttpException(
+          'User not created',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
       if (!newAgency) {
         throw new HttpException(
           'Agency not created',
