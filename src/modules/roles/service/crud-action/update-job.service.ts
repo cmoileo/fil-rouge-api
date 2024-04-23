@@ -1,12 +1,12 @@
 import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { UpdateRoleDto } from '../../dto/update-role.dto';
+import { UpdateJobDto } from '../../dto/update-job.dto';
 
-export class UpdateRoleService {
-  constructor (
+export class UpdateJobService {
+  constructor(
     private readonly prisma: PrismaClient,
     private readonly email: string,
-    private readonly body: UpdateRoleDto,
+    private readonly body: UpdateJobDto,
   ) {}
 
   async execute(): Promise<boolean | HttpException> {
@@ -17,14 +17,14 @@ export class UpdateRoleService {
       if (!agency) {
         throw new HttpException('Agency not found', 404);
       }
-      const role = await this.prisma.role.findFirst({
+      const job = await this.prisma.job.findFirst({
         where: { name: this.body.currentName, agency_id: agency.id },
       });
-      if (!role) {
-        throw new HttpException('Role not found', 404);
+      if (!job) {
+        throw new HttpException('Job not found', 404);
       }
-      await this.prisma.role.update({
-        where: { id: role.id },
+      await this.prisma.job.update({
+        where: { id: job.id },
         data: {
           name: this.body.newName,
           color: this.body.color,
@@ -32,7 +32,7 @@ export class UpdateRoleService {
       });
       return true;
     } catch (error) {
-      throw new HttpException('Error updating role', 400);
+      throw new HttpException('Error updating job', 400);
     }
   }
 }

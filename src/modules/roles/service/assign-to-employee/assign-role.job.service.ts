@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
-import { AssignRoleDto } from "../../dto/assign-role.dto";
+import { AssignJobDto } from '../../dto/assign-job.dto';
 
-export class AssignRoleService {
+export class AssignJobJob {
   constructor(
     private prisma: PrismaClient,
     private agencyEmail: string,
-    private body: AssignRoleDto,
+    private body: AssignJobDto,
   ) {}
 
   async execute(): Promise<boolean | HttpException> {
@@ -26,26 +26,26 @@ export class AssignRoleService {
       if (!employee) {
         return new HttpException('Employee not found', 404);
       }
-      const existingRole = await this.prisma.rolesUsers.findFirst({
+      const existingJob = await this.prisma.jobsUsers.findFirst({
         where: {
-          role_id: this.body.role_id,
+          job_id: this.body.job_id,
           user_id: this.body.user_id,
           agencyId: agency.id,
         },
       });
-      if (existingRole) {
-        return new HttpException('Role already assigned', 400);
+      if (existingJob) {
+        return new HttpException('Job already assigned', 400);
       }
-      await this.prisma.rolesUsers.create({
+      await this.prisma.jobs.Users.create({
         data: {
-          role_id: this.body.role_id,
+          job_id: this.body.job_id,
           user_id: this.body.user_id,
           agencyId: agency.id,
         },
       });
       return true;
     } catch (error) {
-      throw new HttpException('Error assigning role', 400)
+      throw new HttpException('Error assigning job', 400);
     }
     return true;
   }

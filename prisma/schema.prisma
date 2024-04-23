@@ -30,15 +30,15 @@ model Agency {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?
-  roles_users     RolesUsers[]
+  jobs_users      JobsUsers[]
   users           User[]
   folders         Folder[]
   tasks           Task[]
-  roles           Role[]
+  jobs            Job[]
   task_categories TaskCategory[]
   comments        Comment[]
   pictures        Picture[]
-  userRole        UserRole?
+  role            Role?
   PendingEmployee PendingEmployee[]
   TaskState       TaskState[]
 }
@@ -61,17 +61,17 @@ model User {
   password        String
   agency_id       String
   agency          Agency            @relation(fields: [agency_id], references: [id])
-  roles_users     RolesUsers[]
+  jobs_users      JobsUsers[]
   created_tasks   Task[]
   assigned_tasks  AssignedTask[]
   Comment         Comment[]
   Picture         Picture[]
   FavoriteProject FavoriteProject[]
-  userRole        UserRole?
+  role            Role?
 }
 
 model AssignedTask {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(uuid())
   task_id    String
   employe_id String
   task       Task      @relation(fields: [task_id], references: [id])
@@ -148,21 +148,21 @@ model TaskState {
   Task      Task[]
 }
 
-model Role {
-  id          String       @id @default(uuid())
-  name        String
-  color       String
-  agency_id   String
-  roles_users RolesUsers[]
-  agency      Agency       @relation(fields: [agency_id], references: [id])
+model Job {
+  id         String      @id @default(uuid())
+  name       String
+  color      String
+  agency_id  String
+  jobs_users JobsUsers[]
+  agency     Agency      @relation(fields: [agency_id], references: [id])
 }
 
-model RolesUsers {
+model JobsUsers {
   id       String  @id @default(uuid())
   user_id  String
-  role_id  String
+  job_id   String
   user     User    @relation(fields: [user_id], references: [id])
-  role     Role    @relation(fields: [role_id], references: [id])
+  job      Job     @relation(fields: [job_id], references: [id])
   Agency   Agency? @relation(fields: [agencyId], references: [id])
   agencyId String?
 }
@@ -251,7 +251,8 @@ enum InitialKanbanState {
   done
 }
 
-enum UserRole {
+enum Role {
+  owner
   admin
   user
 }

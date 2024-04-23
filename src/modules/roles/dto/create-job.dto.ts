@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class RemoveRoleDto {
+export class CreateJobDto {
   @IsString()
   @IsNotEmpty()
-  roles_user_id: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-  user_id: string;
+  color: string;
 }

@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
-import { CreateRoleDto } from '../../dto/create-role.dto';
+import { CreateJobDto } from '../../dto/create-job.dto';
 
-export class CreateRoleService {
+export class CreateJobService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly email: string,
-    private readonly body: CreateRoleDto,
+    private readonly body: CreateJobDto,
   ) {}
 
   async execute(): Promise<boolean | HttpException> {
@@ -17,14 +17,14 @@ export class CreateRoleService {
       if (!agency) {
         return new HttpException('Agency not found', 404);
       }
-      const isAlreadyRole = await this.prisma.role.findFirst({
+      const isAlreadyJob = await this.prisma.job.findFirst({
         where: { name: this.body.name, agency_id: agency.id },
       });
-      console.log(isAlreadyRole);
-      if (isAlreadyRole) {
-        return new HttpException('Role already exists', 400);
+      console.log(isAlreadyJob);
+      if (isAlreadyJob) {
+        return new HttpException('Job already exists', 400);
       }
-      await this.prisma.role.create({
+      await this.prisma.job.create({
         data: {
           name: this.body.name,
           color: this.body.color,
@@ -33,7 +33,7 @@ export class CreateRoleService {
       });
       return true;
     } catch (error) {
-      throw new HttpException('Error creating role', 400);
+      throw new HttpException('Error creating job', 400);
     }
     return true;
   }

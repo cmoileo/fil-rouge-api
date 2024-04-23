@@ -1,13 +1,13 @@
-import { PrismaClient } from "@prisma/client";
-import { Role } from "../../../../shared/types/roles/role.type";
-import { HttpException } from "@nestjs/common";
+import { PrismaClient } from '@prisma/client';
+import { Job } from '../../../../shared/types/jobs/job.type';
+import { HttpException } from '@nestjs/common';
 
-export class GetRolesService {
+export class GetJobService {
   constructor(
     private readonly prisma: PrismaClient,
     private readonly email: string,
   ) {}
-  async execute(): Promise<Role[] | HttpException> {
+  async execute(): Promise<Job[] | HttpException> {
     try {
       const agency = await this.prisma.agency.findUnique({
         where: { email: this.email },
@@ -15,12 +15,12 @@ export class GetRolesService {
       if (!agency) {
         return new HttpException('Agency not found', 404);
       }
-      const roles = await this.prisma.role.findMany({
+      const jobs = await this.prisma.job.findMany({
         where: { agency_id: agency.id },
       });
-      return roles;
+      return jobs;
     } catch (error) {
-      throw new HttpException('Error getting roles', 500);
+      throw new HttpException('Error getting jobs', 500);
     }
   }
 }

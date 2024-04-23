@@ -1,4 +1,4 @@
-export type Role = {
+export type Job = {
   id: string;
   name: string;
   color: string;
