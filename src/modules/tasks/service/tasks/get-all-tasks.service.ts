@@ -9,7 +9,7 @@ export class GetAllTasksService {
   ) {}
   async execute(): Promise<TaskType[] | HttpException> {
     try {
-      const user_angency = await this.prisma.user.findUnique({
+      const user_agency = await this.prisma.user.findUnique({
         where: {
           email: this.user_email,
         },
@@ -17,12 +17,12 @@ export class GetAllTasksService {
           agency_id: true,
         },
       });
-      if (!user_angency) {
+      if (!user_agency) {
         throw new HttpException('User not found', 404);
       }
       const tasks: TaskType[] = await this.prisma.task.findMany({
         where: {
-          agencyId: user_angency.agency_id,
+          agencyId: user_agency.agency_id,
         },
       });
       return tasks;
