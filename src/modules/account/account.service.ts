@@ -3,6 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import { RoleEnum } from '../../shared/enum/role/role.enum';
 import { ChangeRoleService } from './service/change-role.service';
 import { ChangeRoleDto } from './dto/change-role.dto';
+import { UpdateAccountService } from './service/update-account.service';
+import { UpdateAccountDto } from './dto/update-account.dto';
+import { AccountType } from '../../shared/types/account/account.type';
 
 @Injectable()
 export class AccountService {
@@ -18,6 +21,17 @@ export class AccountService {
       this.prisma,
       user_email,
       role,
+      body,
+    ).execute();
+  }
+
+  async updateAccount(
+    user_email: string,
+    body: UpdateAccountDto,
+  ): Promise<AccountType | HttpException> {
+    return await new UpdateAccountService(
+      this.prisma,
+      user_email,
       body,
     ).execute();
   }
