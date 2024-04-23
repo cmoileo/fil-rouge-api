@@ -10,17 +10,14 @@ export class RemoveEmployeeAgencyService {
   ) {}
   async execute(): Promise<boolean | HttpException> {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: { email: this.agencyEmail },
       });
-      const employee = await this.prisma.user.findUnique({
-        where: { email: this.body.email },
-      });
-      if (!agency) {
+      if (!user) {
         throw new HttpException('Agency not found', 404);
       }
-      if (!employee) {
-        throw new HttpException('Employee not found', 404);
+      if (user.role !== 'OWNER' || 'ADMIN') {
+        throw new HttpException('Unauthorized', 401);
       }
       await this.prisma.user.delete({
         where: { email: this.body.email },

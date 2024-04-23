@@ -2,7 +2,6 @@ import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { PrismaClient } from '@prisma/client';
 import { LoginAgencyDto } from './dto/agency/login-agency.dto';
 import RegisterAgencyService from './service/agency/register-agency.service';
-import LoginAgencyService from './service/agency/login-agency.service';
 import { HttpException } from '@nestjs/common';
 import RegisterEmployeeService from './service/employee/register-employee.service';
 import { RegisterEmployeeDto } from './dto/employee/register-employee.dto';
@@ -15,7 +14,6 @@ import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 import { PasswordRecoveryService } from './service/password-recovery.service';
 import { PasswordRecoveryDto } from './dto/password-recovery.dto';
 import { PasswordChangeDto } from './dto/password-change.dto';
-import { AgencyPasswordChangeService } from './service/agency/password-agency-change.service';
 import EmployeePasswordChangeService from './service/employee/password-employee-change.service';
 import { RemoveEmployeeAgencyService } from './service/agency/remove-employee-agency.service';
 
@@ -32,13 +30,6 @@ export class AuthService {
     return createAgency;
   }
 
-  async loginAgency(body: LoginAgencyDto): Promise<string | HttpException> {
-    const loggedAgency: string | HttpException = await new LoginAgencyService(
-      this.prisma,
-      body,
-    ).execute();
-    return loggedAgency;
-  }
   async addEmployee(body: AddEmployeeAgencyDto, userEmail: string) {
     const addEmployeeAgency = await new AddEmployeeAgencyService(
       this.prisma,
@@ -83,18 +74,6 @@ export class AuthService {
       body,
     ).execute();
     return recovery;
-  }
-
-  async passwordChange(
-    userEmail: string,
-    body: PasswordChangeDto,
-  ): Promise<boolean | HttpException> {
-    const change = await new AgencyPasswordChangeService(
-      this.prisma,
-      userEmail,
-      body,
-    ).execute();
-    return change;
   }
 
   async passwordChangeEmployee(
