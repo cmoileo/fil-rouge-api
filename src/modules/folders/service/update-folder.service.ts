@@ -6,22 +6,22 @@ import { verifyParentId } from '../utils/verify-parend-id.util';
 export class UpdateFolderService {
   async execute(
     prisma: PrismaClient,
-    admin_email: string,
+    user_email: string,
     body: UpdateFolderDto,
   ): Promise<boolean | HttpException> {
     try {
-      const agency = await prisma.agency.findFirst({
+      const user = await prisma.user.findFirst({
         where: {
-          email: admin_email,
+          email: user_email,
         },
       });
-      if (!agency) {
+      if (!user) {
         return new HttpException('Agency not found', 404);
       }
       const folder = await prisma.folder.findFirst({
         where: {
           id: body.id,
-          agency_id: agency.id,
+          agency_id: user.agency_id,
         },
       });
       if (!folder) {

@@ -16,11 +16,6 @@ export class AuthController {
   async registerAgency(@Body() body: RegisterAgencyDto) {
     return this.authService.registerAgency(body);
   }
-
-  @Post('agency/login')
-  async loginAgency(@Body() body: LoginAgencyDto) {
-    return this.authService.loginAgency(body);
-  }
   @UseGuards(JwtAuthGuard)
   @Post('agency/add-employee')
   async addEmployee(@Body() body: AddEmployeeAgencyDto, @Req() req: any) {
@@ -60,16 +55,12 @@ export class AuthController {
     return this.authService.passwordRecoveryChange(id, body);
   }
 
-  @Post('agency/password-change')
-  @UseGuards(JwtAuthGuard)
-  async passwordChange(@Body() body: PasswordChangeDto, @Req() req: any) {
-    const userEmail = req.userEmail;
-    return this.authService.passwordChange(userEmail, body);
-  }
-
   @Post('employee/password-change')
   @UseGuards(JwtAuthGuard)
-  async passwordChangeEmployee(@Body() body: PasswordChangeDto, @Req() req: any) {
+  async passwordChangeEmployee(
+    @Body() body: PasswordChangeDto,
+    @Req() req: any,
+  ) {
     const userEmail = req.userEmail;
     return this.authService.passwordChangeEmployee(userEmail, body);
   }

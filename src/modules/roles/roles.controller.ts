@@ -1,15 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
-import { AssignRoleDto } from "./dto/assign-role.dto";
-import { RemoveRoleDto } from "./dto/remove-role.dto";
+import { CreateJobDto } from './dto/create-job.dto';
+import { UpdateJobDto } from './dto/update-job.dto';
+import { AssignJobDto } from './dto/assign-job.dto';
+import { RemoveJobDto } from './dto/remove-job.dto';
 
-@Controller('roles')
+@Controller('jobs')
 export class RolesController {
-  constructor(private readonly rolesService: RolesService) {
-  }
+  constructor(private readonly rolesService: RolesService) {}
 
   @Get()
   @UseGuards(JwtAuthGuard)
@@ -20,14 +29,14 @@ export class RolesController {
 
   @Post('/create')
   @UseGuards(JwtAuthGuard)
-  async createRole(@Req() req: any, @Body() body: CreateRoleDto) {
+  async createRole(@Req() req: any, @Body() body: CreateJobDto) {
     const userEmail = req.userEmail;
     return await this.rolesService.createRole(userEmail, body);
   }
 
   @Patch('/update')
   @UseGuards(JwtAuthGuard)
-  async updateRole(@Req() req: any, @Body() body: UpdateRoleDto) {
+  async updateRole(@Req() req: any, @Body() body: UpdateJobDto) {
     const userEmail = req.userEmail;
     return await this.rolesService.updateRole(userEmail, body);
   }
@@ -40,14 +49,14 @@ export class RolesController {
 
   @Post('/employee/assign')
   @UseGuards(JwtAuthGuard)
-  async assignRoleToEmployee(@Req() req: any, @Body() body: AssignRoleDto) {
+  async assignRoleToEmployee(@Req() req: any, @Body() body: AssignJobDto) {
     const agencyEmail = req.userEmail;
     return await this.rolesService.assignRoleToEmployee(agencyEmail, body);
   }
 
   @Delete('/employee/remove')
   @UseGuards(JwtAuthGuard)
-  async removeRoleFromEmployee(@Req() req: any, @Body() body: RemoveRoleDto) {
+  async removeRoleFromEmployee(@Req() req: any, @Body() body: RemoveJobDto) {
     const agencyEmail = req.userEmail;
     return await this.rolesService.removeRoleFromEmployee(agencyEmail, body);
   }

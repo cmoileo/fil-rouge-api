@@ -12,12 +12,12 @@ export class UpdateProjectService {
 
   async execute() {
     try {
-      const agency = await this.prisma.agency.findUnique({
+      const user = await this.prisma.user.findUnique({
         where: {
           email: this.agency_email,
         },
       });
-      if (!agency) {
+      if (!user) {
         throw new HttpException('Agency not found', 404);
       }
       await this.prisma.project.update({

@@ -5,25 +5,25 @@ import { FolderType } from '../../../shared/types/folder/folder.type';
 export class GetFoldersService {
   async getFolders(
     prisma: PrismaClient,
-    admin_email: string,
+    user_email: string,
   ): Promise<FolderType[] | HttpException> {
     try {
-      const agency = await prisma.agency.findFirst({
+      const user = await prisma.user.findFirst({
         where: {
-          email: admin_email,
+          email: user_email,
         },
       });
-      if (!agency) {
-        return new HttpException('Agency not found', 404)
+      if (!user) {
+        return new HttpException('User not found', 404);
       }
       const folders = await prisma.folder.findMany({
         where: {
-          agency_id: agency.id,
+          agency_id: user.agency_id,
         },
       });
       return folders;
     } catch (error) {
-      throw new HttpException('Error getting folders', 500)
+      throw new HttpException('Error getting folders', 500);
     }
   }
 }

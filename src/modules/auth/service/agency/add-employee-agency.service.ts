@@ -26,15 +26,27 @@ export default class AddEmployeeAgencyService {
     if (existingEmployee || existingPendingEmployee) {
       return new HttpException('Employee already exists', 400);
     }
-    const agency = await this.prisma.agency.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email: this.userEmail,
       },
     });
+    if (!user) {
+      return new HttpException('User not found', 404);
+    }
+    if (user.role !== 'OWNER' || 'ADMIN') {
+      return new HttpException('Unauthorized', 401);
+    }
     const newEmployee = await this.prisma.pendingEmployee.create({
       data: {
         email: this.body.email,
-        agency_id: agency.id,
+        agency_id: user.agency_id,
+        role: this.body.role,
+      },
+    });
+    const agency = await this.prisma.agency.findUnique({
+      where: {
+        id: user.agency_id,
       },
     });
     try {
