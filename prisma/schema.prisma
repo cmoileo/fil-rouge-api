@@ -53,20 +53,22 @@ model PendingEmployee {
 }
 
 model User {
-  id              String            @id @default(uuid())
-  email           String            @unique
-  firstname       String
-  lastname        String
-  password        String
-  agency_id       String
-  agency          Agency            @relation(fields: [agency_id], references: [id])
-  jobs_users      JobsUsers[]
-  created_tasks   Task[]
-  assigned_tasks  AssignedTask[]
-  Comment         Comment[]
-  Picture         Picture[]
-  FavoriteProject FavoriteProject[]
-  role            Role?
+  id                  String            @id @default(uuid())
+  email               String            @unique
+  firstname           String
+  lastname            String
+  password            String
+  agency_id           String
+  agency              Agency            @relation(fields: [agency_id], references: [id])
+  jobs_users          JobsUsers[]
+  created_tasks       Task[]
+  assigned_tasks      AssignedTask[]
+  Comment             Comment[]
+  Picture             Picture[]
+  FavoriteProject     FavoriteProject[]
+  profile_picture_url String?
+  profile_picture_key String?
+  role                Role?
 }
 
 model AssignedTask {
