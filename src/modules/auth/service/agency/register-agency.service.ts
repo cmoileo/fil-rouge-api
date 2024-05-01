@@ -10,7 +10,7 @@ export default class RegisterAgencyService {
     private readonly body: RegisterAgencyDto,
   ) {}
 
-  async execute(): Promise<string | HttpException> {
+  async execute(): Promise<{ token: string } | HttpException> {
     if (this.body.password !== this.body.passwordConfirm) {
       throw new HttpException(
         'Password and confirm password do not match',
@@ -58,7 +58,9 @@ export default class RegisterAgencyService {
       const payload = { sub: this.body.email };
       const token = new GenerateJwt(payload, '30d').generate();
 
-      return token;
+      return {
+        token: token,
+      };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
