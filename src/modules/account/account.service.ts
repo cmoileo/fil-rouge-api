@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { RoleEnum } from '../../shared/enum/role/role.enum';
 import { ChangeRoleService } from './service/change-role.service';
@@ -7,7 +7,6 @@ import { UpdateAccountService } from './service/update-account.service';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { AccountType } from '../../shared/types/account/account.type';
 
-@Injectable()
 export class AccountService {
   constructor(private readonly prisma: PrismaClient) {
     this.prisma = new PrismaClient();

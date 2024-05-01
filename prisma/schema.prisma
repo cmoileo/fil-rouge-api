@@ -23,7 +23,7 @@ model Agency {
   zip_code        Int
   city            String
   country         String
-  employee_count  Int
+  employee_count  Int?
   plan            Plan
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
