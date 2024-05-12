@@ -34,7 +34,7 @@ export default class AddEmployeeAgencyService {
     if (!user) {
       return new HttpException('User not found', 404);
     }
-    if (user.role !== 'OWNER' || 'ADMIN') {
+    if (user.role !== 'OWNER' && 'ADMIN') {
       return new HttpException('Unauthorized', 401);
     }
     const newEmployee = await this.prisma.pendingEmployee.create({
