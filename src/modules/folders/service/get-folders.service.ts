@@ -20,6 +20,9 @@ export class GetFoldersService {
         where: {
           agency_id: user.agency_id,
         },
+        include: {
+          projects: true,
+        },
       });
       return folders;
     } catch (error) {

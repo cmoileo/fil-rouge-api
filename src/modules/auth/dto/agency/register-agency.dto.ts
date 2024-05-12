@@ -3,6 +3,7 @@ import {
   IsIn,
   IsInt,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -55,6 +56,7 @@ export class RegisterAgencyDto {
 
   @IsInt()
   @IsNotEmpty()
+  @IsOptional()
   employee_count: number;
 
   @IsString()

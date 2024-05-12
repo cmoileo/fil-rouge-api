@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 import { RoleEnum } from '../../../../shared/enum/role/role.enum';
 
 export class AddEmployeeAgencyDto {
@@ -6,6 +6,6 @@ export class AddEmployeeAgencyDto {
   @IsNotEmpty()
   email: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   role: RoleEnum;
 }

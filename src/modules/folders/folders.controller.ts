@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { FoldersService } from './folders.service';
 import { JwtAuthGuard } from '../guards/verify-jwt.guard';
 import { CreateFolderDto } from './dto/create-folder.dto';

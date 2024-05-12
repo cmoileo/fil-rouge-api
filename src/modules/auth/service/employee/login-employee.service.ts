@@ -9,7 +9,7 @@ export default class LoginEmployeeService {
     private readonly prisma: PrismaClient,
     private readonly body: LoginEmployeeDto,
   ) {}
-  async execute(): Promise<string | HttpException> {
+  async execute(): Promise<{ token: string } | HttpException> {
     try {
       const employee = await this.prisma.user.findUnique({
         where: {
@@ -29,7 +29,9 @@ export default class LoginEmployeeService {
 
       const payload = { sub: employee.email };
       const token = await new GenerateJwt(payload, '30d').generate();
-      return token;
+      return {
+        token: token,
+      };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }

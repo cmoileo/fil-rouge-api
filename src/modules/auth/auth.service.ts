@@ -24,8 +24,8 @@ export class AuthService {
 
   async registerAgency(
     body: RegisterAgencyDto,
-  ): Promise<string | HttpException> {
-    const createAgency: string | HttpException =
+  ): Promise<{ token: string } | HttpException> {
+    const createAgency: { token: string } | HttpException =
       await new RegisterAgencyService(this.prisma, body).execute();
     return createAgency;
   }
@@ -48,8 +48,10 @@ export class AuthService {
     return createEmployee;
   }
 
-  async loginEmployee(body: LoginEmployeeDto): Promise<string | HttpException> {
-    const loggedEmployee: string | HttpException =
+  async loginEmployee(
+    body: LoginEmployeeDto,
+  ): Promise<{ token: string } | HttpException> {
+    const loggedEmployee: { token: string } | HttpException =
       await new LoginEmployeeService(this.prisma, body).execute();
     return loggedEmployee;
   }

@@ -6,7 +6,8 @@ import { DeleteFolderDto } from './dto/delete-folder.dto';
 import { DeleteFolderService } from './service/delete-folder.service';
 import { UpdateFolderDto } from './dto/update-folder.dto';
 import { UpdateFolderService } from './service/update-folder.service';
-import { GetFoldersService } from "./service/get-folders.service";
+import { GetFoldersService } from './service/get-folders.service';
+import { FolderType } from '../../shared/types/folder/folder.type';
 
 export class FoldersService {
   constructor(private readonly prisma: PrismaClient) {
@@ -15,7 +16,7 @@ export class FoldersService {
   async createFolder(
     admin_email: string,
     body: CreateFolderDto,
-  ): Promise<boolean | HttpException> {
+  ): Promise<FolderType | HttpException> {
     const newFolder = new CreateFolderService().execute(
       this.prisma,
       admin_email,
@@ -48,7 +49,10 @@ export class FoldersService {
   }
 
   async getFolders(admin_email: string) {
-    const folders = await new GetFoldersService().getFolders(this.prisma, admin_email);
+    const folders = await new GetFoldersService().getFolders(
+      this.prisma,
+      admin_email,
+    );
     return folders;
   }
 }
