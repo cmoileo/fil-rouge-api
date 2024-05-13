@@ -17,9 +17,6 @@ export class GetUsersService {
       if (!user) {
         return new HttpException('User not found', 404);
       }
-      if (user.role !== 'OWNER' && 'ADMIN') {
-        return new HttpException('Unauthorized', 401);
-      }
       const users = await this.prisma.user.findMany({
         where: {
           agency_id: user.agency_id,
