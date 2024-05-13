@@ -41,7 +41,7 @@ export default class AddEmployeeAgencyService {
       data: {
         email: this.body.email,
         agency_id: user.agency_id,
-        role: this.body.role.length > 1 ? this.body.role : null,
+        role: this.body.role,
       },
     });
     const agency = await this.prisma.agency.findUnique({
