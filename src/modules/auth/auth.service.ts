@@ -42,8 +42,8 @@ export class AuthService {
   async registerEmployee(
     id: string,
     body: RegisterEmployeeDto,
-  ): Promise<string | HttpException> {
-    const createEmployee: string | HttpException =
+  ): Promise<{ token: string } | HttpException> {
+    const createEmployee: { token: string } | HttpException =
       await new RegisterEmployeeService(this.prisma, body, id).execute();
     return createEmployee;
   }
