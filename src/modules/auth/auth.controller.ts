@@ -17,7 +17,7 @@ import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
 import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 import { PasswordRecoveryDto } from './dto/password-recovery.dto';
 import { PasswordChangeDto } from './dto/password-change.dto';
-import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -41,10 +41,7 @@ export class AuthController {
   }
 
   @Post('employee/register/:id')
-  async registerEmployee(
-    @Param('id') id: string,
-    @Body() body: RegisterEmployeeDto,
-  ) {
+  async registerEmployee(@Param('id') id: string, @Body() body: any) {
     console.log(body);
     return this.authService.registerEmployee(id, body);
   }
