@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Param,
-  Post,
-  Req,
-  UploadedFile,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { LoginAgencyDto } from './dto/agency/login-agency.dto';
@@ -41,8 +32,23 @@ export class AuthController {
   }
 
   @Post('employee/register/:id')
-  async registerEmployee(@Param('id') id: string, @Body() body: any) {
-    console.log(body);
+  async registerEmployee(
+    @Param('id') id: string,
+    @Body() body: RegisterEmployeeDto,
+  ) {
+    const base64Data = body.avatar.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const file = {
+      fieldname: 'avatar',
+      originalname: `avatar_${Date.now()}.png`,
+      mimetype: 'image/png',
+      buffer: buffer,
+      size: buffer.length,
+    };
+
+    body.avatar = file;
+
     return this.authService.registerEmployee(id, body);
   }
 

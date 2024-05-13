@@ -18,6 +18,7 @@ class StorageService {
       const { data, error } = await this.supabase.storage
         .from('storage')
         .upload(`${Date.now()}${extname(file.originalname)}`, compressedBuffer);
+      console.log(data, error);
       if (error) {
         throw new Error(error.message);
       }
@@ -36,7 +37,6 @@ class StorageService {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(signedUrl);
     return signedUrl?.signedUrl || '';
   }
 

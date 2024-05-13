@@ -52,7 +52,6 @@ export default class RegisterEmployeeService {
       if (this.body.avatar) {
         imageUrl = await storageService.uploadFile(this.body.avatar);
         image_key = `${Date.now()}${extname(this.body.avatar.originalname)}`;
-        console.log(imageUrl, image_key);
       }
       const hashedPassword = await new HashPassword(this.body.password).hash();
       const newEmployee = await this.prisma.user.create({
