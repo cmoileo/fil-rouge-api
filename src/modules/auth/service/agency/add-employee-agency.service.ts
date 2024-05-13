@@ -52,7 +52,7 @@ export default class AddEmployeeAgencyService {
     try {
       await new MailerService(
         "You've been invited to join an agency",
-        `You've been invited to join ${agency.name}. Click <a href="${process.env.API_URL}/auth/employee/register/${newEmployee.id}">here</a> to accept the invitation`,
+        `You've been invited to join ${agency.name}. Click <a href="${process.env.FRONT_URL}/register-employee/${newEmployee.id}">here</a> to accept the invitation`,
         newEmployee.email,
       ).sendMail();
       return true;

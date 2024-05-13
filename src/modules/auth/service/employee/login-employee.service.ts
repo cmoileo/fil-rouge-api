@@ -33,6 +33,7 @@ export default class LoginEmployeeService {
         token: token,
       };
     } catch (err) {
+      console.log(err);
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
