@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   Patch,
   Post,
@@ -36,5 +37,12 @@ export class AccountController {
   ): Promise<AccountType | HttpException> {
     const user_email = req.userEmail;
     return await this.accountService.updateAccount(user_email, body);
+  }
+
+  @Get('get-users')
+  @UseGuards(JwtAuthGuard)
+  async getUsers(@Req() req: any): Promise<AccountType[] | HttpException> {
+    const user_email = req.userEmail;
+    return await this.accountService.getUsers(user_email);
   }
 }
