@@ -26,7 +26,7 @@ export class RolesService {
   async createRole(
     userEmail: string,
     body: CreateJobDto,
-  ): Promise<boolean | HttpException> {
+  ): Promise<Job | HttpException> {
     const createdRole = await new CreateJobService(
       this.prisma,
       userEmail,

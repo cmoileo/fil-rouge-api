@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
 import { CreateJobDto } from '../../dto/create-job.dto';
+import { Job } from '../../../../shared/types/jobs/job.type';
 
 export class CreateJobService {
   constructor(
@@ -9,7 +10,7 @@ export class CreateJobService {
     private readonly body: CreateJobDto,
   ) {}
 
-  async execute(): Promise<boolean | HttpException> {
+  async execute(): Promise<Job | HttpException> {
     try {
       const user = await this.prisma.user.findUnique({
         where: { email: this.email },
@@ -24,17 +25,16 @@ export class CreateJobService {
       if (isAlreadyJob) {
         return new HttpException('Job already exists', 400);
       }
-      await this.prisma.job.create({
+      const createdJob = await this.prisma.job.create({
         data: {
           name: this.body.name,
           color: this.body.color,
           agency_id: user.agency_id,
         },
       });
-      return true;
+      return createdJob;
     } catch (error) {
       throw new HttpException('Error creating job', 400);
     }
-    return true;
   }
 }
