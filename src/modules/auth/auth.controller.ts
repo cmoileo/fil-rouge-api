@@ -1,4 +1,13 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterAgencyDto } from './dto/agency/register-agency.dto';
 import { LoginAgencyDto } from './dto/agency/login-agency.dto';
@@ -8,6 +17,7 @@ import { AddEmployeeAgencyDto } from './dto/agency/add-employee-agency.dto';
 import { PasswordRecoveryAskDto } from './dto/password-recovery-ask.dto';
 import { PasswordRecoveryDto } from './dto/password-recovery.dto';
 import { PasswordChangeDto } from './dto/password-change.dto';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -35,6 +45,7 @@ export class AuthController {
     @Param('id') id: string,
     @Body() body: RegisterEmployeeDto,
   ) {
+    console.log(body);
     return this.authService.registerEmployee(id, body);
   }
 

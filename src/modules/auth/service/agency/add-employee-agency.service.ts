@@ -44,6 +44,7 @@ export default class AddEmployeeAgencyService {
         role: this.body.role,
       },
     });
+    console.log(newEmployee);
     const agency = await this.prisma.agency.findUnique({
       where: {
         id: user.agency_id,

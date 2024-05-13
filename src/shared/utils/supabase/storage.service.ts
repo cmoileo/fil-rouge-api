@@ -10,20 +10,24 @@ class StorageService {
   );
 
   async uploadFile(file: any): Promise<{ name: string; image_url: string }> {
-    let compressedBuffer = file.buffer;
-    while (compressedBuffer.length > 512000) {
-      compressedBuffer = await this.compressFile(compressedBuffer);
+    try {
+      let compressedBuffer = file.buffer;
+      while (compressedBuffer.length > 512000) {
+        compressedBuffer = await this.compressFile(compressedBuffer);
+      }
+      const { data, error } = await this.supabase.storage
+        .from('storage')
+        .upload(`${Date.now()}${extname(file.originalname)}`, compressedBuffer);
+      if (error) {
+        throw new Error(error.message);
+      }
+      return {
+        name: `${Date.now()}${extname(file.originalname)}`,
+        image_url: data.path ? data.path : '',
+      };
+    } catch (err) {
+      throw new Error(err.message);
     }
-    const { data, error } = await this.supabase.storage
-      .from('storage')
-      .upload(`${Date.now()}${extname(file.originalname)}`, compressedBuffer);
-    if (error) {
-      throw new Error(error.message);
-    }
-    return {
-      name: `${Date.now()}${extname(file.originalname)}`,
-      image_url: data.path ? data.path : '',
-    };
   }
   async getSignedUrl(imagePath: string): Promise<string> {
     const { data: signedUrl, error } = await this.supabase.storage
