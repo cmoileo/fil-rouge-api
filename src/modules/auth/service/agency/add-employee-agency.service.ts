@@ -34,6 +34,12 @@ export default class AddEmployeeAgencyService {
     if (!user) {
       return new HttpException('User not found', 404);
     }
+    if (
+      user.role == 'EMPLOYEE' &&
+      (this.body.role == 'OWNER' || this.body.role == 'ADMIN')
+    ) {
+      return new HttpException('Unauthorized', 401);
+    }
     if (user.role !== 'OWNER' && user.role !== 'ADMIN') {
       return new HttpException('Unauthorized', 401);
     }

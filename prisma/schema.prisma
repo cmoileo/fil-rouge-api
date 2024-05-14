@@ -257,5 +257,5 @@ enum InitialKanbanState {
 enum Role {
   OWNER
   ADMIN
-  USER
+  EMPLOYEE
 }

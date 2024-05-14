@@ -9,7 +9,7 @@ export default class LoginEmployeeService {
     private readonly prisma: PrismaClient,
     private readonly body: LoginEmployeeDto,
   ) {}
-  async execute(): Promise<{ token: string } | HttpException> {
+  async execute(): Promise<{ token: string; role: string } | HttpException> {
     try {
       const employee = await this.prisma.user.findUnique({
         where: {
@@ -31,6 +31,7 @@ export default class LoginEmployeeService {
       const token = await new GenerateJwt(payload, '30d').generate();
       return {
         token: token,
+        role: employee.role,
       };
     } catch (err) {
       console.log(err);

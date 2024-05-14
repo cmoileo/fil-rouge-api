@@ -13,7 +13,7 @@ export default class RegisterEmployeeService {
     private readonly id: string,
   ) {}
 
-  async execute(): Promise<{ token: string } | HttpException> {
+  async execute(): Promise<{ token: string; role: string } | HttpException> {
     try {
       const isEmailRegistered = await this.prisma.user.findUnique({
         where: {
@@ -76,6 +76,7 @@ export default class RegisterEmployeeService {
       const token = new GenerateJwt(payload, '30d').generate();
       return {
         token: token,
+        role: newEmployee.role,
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
