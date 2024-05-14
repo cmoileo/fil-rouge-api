@@ -38,11 +38,13 @@ export class RolesService {
   async updateRole(
     userEmail: string,
     body: UpdateJobDto,
+    roleId: string,
   ): Promise<boolean | HttpException> {
     const updatedRole = await new UpdateJobService(
       this.prisma,
       userEmail,
       body,
+      roleId,
     ).execute();
     return updatedRole;
   }

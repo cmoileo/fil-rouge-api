@@ -7,6 +7,7 @@ export class UpdateJobService {
     private readonly prisma: PrismaClient,
     private readonly email: string,
     private readonly body: UpdateJobDto,
+    private readonly id: string,
   ) {}
 
   async execute(): Promise<boolean | HttpException> {
@@ -15,13 +16,16 @@ export class UpdateJobService {
         where: { email: this.email },
       });
       if (!user) {
-        throw new HttpException('Agency not found', 404);
+        throw new HttpException('User not found', 404);
       }
       const job = await this.prisma.job.findFirst({
-        where: { id: this.body.id, agency_id: user.agency_id },
+        where: { id: this.id, agency_id: user.agency_id },
       });
       if (!job) {
         throw new HttpException('Job not found', 404);
+      }
+      if (job.agency_id !== user.agency_id) {
+        throw new HttpException('Unauthorized', 401);
       }
       await this.prisma.job.update({
         where: { id: job.id },

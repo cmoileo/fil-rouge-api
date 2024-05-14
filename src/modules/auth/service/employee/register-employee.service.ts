@@ -63,6 +63,7 @@ export default class RegisterEmployeeService {
           agency_id: agency_id,
           profile_picture_url: imageUrl ? imageUrl.image_url : null,
           profile_picture_key: imageUrl ? image_key : null,
+          role: pendingEmployee.role,
         },
       });
       if (!newEmployee) {

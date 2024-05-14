@@ -34,11 +34,15 @@ export class RolesController {
     return await this.rolesService.createRole(userEmail, body);
   }
 
-  @Patch('/update')
+  @Patch('/update/:id')
   @UseGuards(JwtAuthGuard)
-  async updateRole(@Req() req: any, @Body() body: UpdateJobDto) {
+  async updateRole(
+    @Req() req: any,
+    @Body() body: UpdateJobDto,
+    @Param('id') roleId: string,
+  ) {
     const userEmail = req.userEmail;
-    return await this.rolesService.updateRole(userEmail, body);
+    return await this.rolesService.updateRole(userEmail, body, roleId);
   }
 
   @Delete('/delete/:id')
