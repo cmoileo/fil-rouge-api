@@ -9,6 +9,7 @@ import { Job } from '../../shared/types/jobs/job.type';
 import { GetJobService } from './service/crud-action/get-job.service';
 import { AssignJobJob } from './service/assign-to-employee/assign-role.job.service';
 import { RemoveJobService } from './service/assign-to-employee/remove-job.service';
+import { AssignRoleEmployee } from './service/assign-to-employee/assign-role-employee.service';
 
 export class RolesService {
   constructor(private prisma: PrismaClient) {
@@ -57,13 +58,25 @@ export class RolesService {
     return deletedRole;
   }
 
-  async assignRoleToEmployee(
+  async assignJobToEmployee(
     agencyEmail: string,
     body: any,
   ): Promise<boolean | HttpException> {
     const assignedRole = await new AssignJobJob(
       this.prisma,
       agencyEmail,
+      body,
+    ).execute();
+    return assignedRole;
+  }
+
+  async assignRoleToEmployee(
+    userEmail: string,
+    body: any,
+  ): Promise<boolean | HttpException> {
+    const assignedRole = await new AssignRoleEmployee(
+      this.prisma,
+      userEmail,
       body,
     ).execute();
     return assignedRole;
