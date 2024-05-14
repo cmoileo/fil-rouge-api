@@ -18,7 +18,7 @@ export class UpdateJobService {
         throw new HttpException('Agency not found', 404);
       }
       const job = await this.prisma.job.findFirst({
-        where: { name: this.body.currentName, agency_id: user.agency_id },
+        where: { id: this.body.id, agency_id: user.agency_id },
       });
       if (!job) {
         throw new HttpException('Job not found', 404);
@@ -26,7 +26,7 @@ export class UpdateJobService {
       await this.prisma.job.update({
         where: { id: job.id },
         data: {
-          name: this.body.newName,
+          name: this.body.name,
           color: this.body.color,
         },
       });

@@ -3,11 +3,11 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class UpdateJobDto {
   @IsString()
   @IsNotEmpty()
-  currentName: string;
+  id: string;
 
   @IsString()
   @IsNotEmpty()
-  newName: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()

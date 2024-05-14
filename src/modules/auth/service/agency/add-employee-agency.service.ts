@@ -34,7 +34,7 @@ export default class AddEmployeeAgencyService {
     if (!user) {
       return new HttpException('User not found', 404);
     }
-    if (user.role !== 'OWNER' && 'ADMIN') {
+    if (user.role !== 'OWNER' && user.role !== 'ADMIN') {
       return new HttpException('Unauthorized', 401);
     }
     const newEmployee = await this.prisma.pendingEmployee.create({
@@ -44,7 +44,6 @@ export default class AddEmployeeAgencyService {
         role: this.body.role,
       },
     });
-    console.log(newEmployee);
     const agency = await this.prisma.agency.findUnique({
       where: {
         id: user.agency_id,
@@ -58,7 +57,6 @@ export default class AddEmployeeAgencyService {
       ).sendMail();
       return true;
     } catch (error) {
-      console.log(error);
       return new HttpException('Error sending email', 500);
     }
   }
