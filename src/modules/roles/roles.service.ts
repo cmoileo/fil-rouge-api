@@ -69,15 +69,15 @@ export class RolesService {
     return assignedRole;
   }
 
-  async removeRoleFromEmployee(
-    agencyEmail: string,
-    body: any,
-  ): Promise<boolean | HttpException> {
-    const removedRole = await new RemoveJobService(
-      this.prisma,
-      agencyEmail,
-      body,
-    ).execute();
-    return removedRole;
-  }
+  // async removeRoleFromEmployee(
+  //   agencyEmail: string,
+  //   body: any,
+  // ): Promise<boolean | HttpException> {
+  //   const removedRole = await new RemoveJobService(
+  //     this.prisma,
+  //     agencyEmail,
+  //     body,
+  //   ).execute();
+  //   return removedRole;
+  // }
 }

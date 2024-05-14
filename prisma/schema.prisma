@@ -28,7 +28,6 @@ model Agency {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   deletedAt       DateTime?
-  jobs_users      JobsUsers[]
   users           User[]
   folders         Folder[]
   tasks           Task[]
@@ -60,7 +59,8 @@ model User {
   password            String
   agency_id           String
   agency              Agency            @relation(fields: [agency_id], references: [id])
-  jobs_users          JobsUsers[]
+  job                 Job?              @relation(fields: [job_id], references: [id])
+  job_id              String?
   created_tasks       Task[]
   assigned_tasks      AssignedTask[]
   Comment             Comment[]
@@ -152,22 +152,12 @@ model TaskState {
 }
 
 model Job {
-  id         String      @id @default(uuid())
-  name       String
-  color      String
-  agency_id  String
-  jobs_users JobsUsers[]
-  agency     Agency      @relation(fields: [agency_id], references: [id])
-}
-
-model JobsUsers {
-  id       String  @id @default(uuid())
-  user_id  String
-  job_id   String
-  user     User    @relation(fields: [user_id], references: [id])
-  job      Job     @relation(fields: [job_id], references: [id])
-  Agency   Agency? @relation(fields: [agencyId], references: [id])
-  agencyId String?
+  id        String @id @default(uuid())
+  name      String
+  color     String
+  agency_id String
+  agency    Agency @relation(fields: [agency_id], references: [id])
+  User      User[]
 }
 
 model TaskCategory {

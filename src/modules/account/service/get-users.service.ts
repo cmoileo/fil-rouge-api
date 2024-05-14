@@ -19,8 +19,14 @@ export class GetUsersService {
         return new HttpException('User not found', 404);
       }
       const users = await this.prisma.user.findMany({
+        orderBy: {
+          firstname: 'desc',
+        },
         where: {
           agency_id: user.agency_id,
+        },
+        include: {
+          job: true,
         },
       });
 

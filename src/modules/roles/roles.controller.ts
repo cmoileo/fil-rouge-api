@@ -58,10 +58,10 @@ export class RolesController {
     return await this.rolesService.assignRoleToEmployee(agencyEmail, body);
   }
 
-  @Delete('/employee/remove')
-  @UseGuards(JwtAuthGuard)
-  async removeRoleFromEmployee(@Req() req: any, @Body() body: RemoveJobDto) {
-    const agencyEmail = req.userEmail;
-    return await this.rolesService.removeRoleFromEmployee(agencyEmail, body);
-  }
+  // @Delete('/employee/remove')
+  // @UseGuards(JwtAuthGuard)
+  // async removeRoleFromEmployee(@Req() req: any, @Body() body: RemoveJobDto) {
+  //   const agencyEmail = req.userEmail;
+  //   return await this.rolesService.removeRoleFromEmployee(agencyEmail, body);
+  // }
 }

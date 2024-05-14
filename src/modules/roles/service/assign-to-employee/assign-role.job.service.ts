@@ -26,25 +26,18 @@ export class AssignJobJob {
       if (!employee) {
         return new HttpException('Employee not found', 404);
       }
-      const existingJob = await this.prisma.jobsUsers.findFirst({
-        where: {
-          job_id: this.body.job_id,
-          user_id: this.body.user_id,
-          agencyId: user.agency_id,
-        },
-      });
-      if (existingJob) {
-        return new HttpException('Job already assigned', 400);
+      if (user.role == 'EMPLOYEE') {
+        return new HttpException('User not allowed to assign jobs', 403);
       }
-      await this.prisma.jobsUsers.create({
+      await this.prisma.user.update({
+        where: { id: employee.id },
         data: {
           job_id: this.body.job_id,
-          user_id: this.body.user_id,
-          agencyId: user.agency_id,
         },
       });
       return true;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Error assigning job', 400);
     }
     return true;
