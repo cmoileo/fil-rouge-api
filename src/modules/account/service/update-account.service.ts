@@ -40,6 +40,12 @@ export class UpdateAccountService {
           profile_picture_key: imageUrl ? image_key : user.profile_picture_key,
         },
       });
+      if (!updatedUser) return new HttpException('User not found', 404);
+      if (updatedUser.profile_picture_url && updatedUser.profile_picture_key) {
+        updatedUser.profile_picture_url = await storageService.getSignedUrl(
+          updatedUser.profile_picture_url,
+        );
+      }
       return updatedUser;
     } catch (error) {
       return new HttpException(error.message, error.status);

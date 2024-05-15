@@ -35,6 +35,19 @@ export class AccountController {
     @Body() body: UpdateAccountDto,
     @Req() req: any,
   ): Promise<AccountType | HttpException> {
+    const base64Data = body.avatar.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const file = {
+      fieldname: 'avatar',
+      originalname: `avatar_${Date.now()}.png`,
+      mimetype: 'image/png',
+      buffer: buffer,
+      size: buffer.length,
+    };
+
+    body.avatar = file;
+
     const user_email = req.userEmail;
     return await this.accountService.updateAccount(user_email, body);
   }

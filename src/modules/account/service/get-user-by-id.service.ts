@@ -1,5 +1,6 @@
 import { PrismaClient, User } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
+import storageService from '../../../shared/utils/supabase/storage.service';
 
 export class GetUserByIdService {
   constructor(
@@ -15,6 +16,11 @@ export class GetUserByIdService {
       });
       if (!user) {
         return new HttpException('User not found', 404);
+      }
+      if (user.profile_picture_url && user.profile_picture_key) {
+        user.profile_picture_url = await storageService.getSignedUrl(
+          user.profile_picture_url,
+        );
       }
       return user;
     } catch (error) {
