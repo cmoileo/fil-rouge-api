@@ -21,7 +21,6 @@ export class CreateJobService {
       const isAlreadyJob = await this.prisma.job.findFirst({
         where: { name: this.body.name, agency_id: user.agency_id },
       });
-      console.log(isAlreadyJob);
       if (isAlreadyJob) {
         return new HttpException('Job already exists', 400);
       }

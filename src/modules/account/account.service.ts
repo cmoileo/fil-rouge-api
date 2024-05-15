@@ -7,6 +7,7 @@ import { UpdateAccountService } from './service/update-account.service';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { AccountType } from '../../shared/types/account/account.type';
 import { GetUsersService } from './service/get-users.service';
+import { GetUserByIdService } from './service/get-user-by-id.service';
 
 export class AccountService {
   constructor(private readonly prisma: PrismaClient) {
@@ -38,5 +39,8 @@ export class AccountService {
 
   async getUsers(user_email: string): Promise<AccountType[] | HttpException> {
     return await new GetUsersService(this.prisma, user_email).execute();
+  }
+  async getUserById(user_email: string): Promise<AccountType | HttpException> {
+    return await new GetUserByIdService(this.prisma, user_email).execute();
   }
 }

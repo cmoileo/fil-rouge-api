@@ -45,4 +45,10 @@ export class AccountController {
     const user_email = req.userEmail;
     return await this.accountService.getUsers(user_email);
   }
+  @Get('get-user')
+  @UseGuards(JwtAuthGuard)
+  async getUserById(@Req() req: any): Promise<AccountType | HttpException> {
+    const user_email = req.userEmail;
+    return await this.accountService.getUserById(user_email);
+  }
 }

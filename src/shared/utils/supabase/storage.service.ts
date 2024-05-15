@@ -51,7 +51,6 @@ class StorageService {
       })
       .webp({ quality: 80 })
       .toBuffer();
-    console.log(compressedBuffer.length);
     return compressedBuffer;
   }
 }
