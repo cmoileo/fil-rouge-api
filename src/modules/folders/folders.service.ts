@@ -27,12 +27,12 @@ export class FoldersService {
 
   async deleteFolder(
     admin_email: string,
-    body: DeleteFolderDto,
+    folderId: string,
   ): Promise<boolean | HttpException> {
     const deletedFolder = new DeleteFolderService().execute(
       this.prisma,
       admin_email,
-      body,
+      folderId,
     );
     return deletedFolder;
   }

@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { DeleteFolderDto } from '../dto/delete-folder.dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { updateChildFolders } from '../utils/update-child-folder.util';
 import { FolderType } from '../../../shared/types/folder/folder.type';
@@ -9,12 +8,12 @@ export class DeleteFolderService {
   async execute(
     prisma: PrismaClient,
     user_email: string,
-    body: DeleteFolderDto,
+    folderId: string,
   ): Promise<boolean | HttpException> {
     try {
       const folder: FolderType = await prisma.folder.findUnique({
         where: {
-          id: body.folder_id,
+          id: folderId,
         },
       });
 
@@ -32,8 +31,10 @@ export class DeleteFolderService {
           email: user_email,
         },
       });
-
-      if (agency.id !== user.agency_id || user.role !== 'OWNER' || 'ADMIN') {
+      if (
+        agency.id !== user.agency_id ||
+        (user.role !== 'OWNER' && user.role !== 'ADMIN')
+      ) {
         throw new HttpException('Unauthorized', 403);
       }
 
@@ -53,6 +54,7 @@ export class DeleteFolderService {
 
       return true;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Error', 500);
     }
   }

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Req,
@@ -24,11 +25,11 @@ export class FoldersController {
     return await this.foldersService.createFolder(agency_email, body);
   }
 
-  @Delete('/delete')
+  @Delete('/delete/:id')
   @UseGuards(JwtAuthGuard)
-  async deleteFolder(@Req() req: any, @Body() body: DeleteFolderDto) {
+  async deleteFolder(@Req() req: any, @Param('id') folderId: string) {
     const agency_email = req.userEmail;
-    return await this.foldersService.deleteFolder(agency_email, body);
+    return await this.foldersService.deleteFolder(agency_email, folderId);
   }
 
   @Patch('/update')
