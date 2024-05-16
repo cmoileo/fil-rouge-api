@@ -21,6 +21,7 @@ export class FoldersController {
   @Post('/create')
   @UseGuards(JwtAuthGuard)
   async createFolder(@Req() req: any, @Body() body: CreateFolderDto) {
+    console.log(body);
     const agency_email = req.userEmail;
     return await this.foldersService.createFolder(agency_email, body);
   }
