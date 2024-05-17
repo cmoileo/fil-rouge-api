@@ -7,7 +7,11 @@ export class GetProjectsService {
 
   async execute(): Promise<Project[]> {
     try {
-      const projects: Project[] = await this.prisma.project.findMany();
+      const projects: Project[] = await this.prisma.project.findMany({
+        include: {
+          tasks: true,
+        },
+      });
       return projects;
     } catch (error) {
       throw new HttpException(error.message, error.status);

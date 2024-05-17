@@ -19,7 +19,7 @@ export default class CreateProjectService {
       if (!user) {
         return new HttpException('Agency not found', 404);
       }
-      if (user.role !== 'OWNER' && 'ADMIN') {
+      if (user.role !== 'OWNER' && user.role !== 'ADMIN') {
         return new HttpException('Unauthorized', 401);
       }
       const existingProject = await this.prisma.project.findFirst({
