@@ -43,8 +43,9 @@ export class ProjectController {
     return this.projectService.deleteProject(project_id);
   }
   @Get('/get')
-  async getProjects(): Promise<Project[]> {
-    return this.projectService.getProjects();
+  async getProjects(@Req() req: any): Promise<Project[]> {
+    const userEmail = req.userEmail;
+    return this.projectService.getProjects(userEmail);
   }
 
   @Get('/get/:id')

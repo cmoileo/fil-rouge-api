@@ -46,8 +46,8 @@ export class ProjectsService {
     return deletedProject;
   }
 
-  async getProjects(): Promise<Project[]> {
-    return await new GetProjectsService(this.prisma).execute();
+  async getProjects(userEmail: string): Promise<Project[]> {
+    return await new GetProjectsService(this.prisma, userEmail).execute();
   }
 
   async getProjectById(project_id: string): Promise<Project | HttpException> {
