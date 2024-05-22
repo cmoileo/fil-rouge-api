@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -38,5 +39,14 @@ export class TaskCategoriesController {
       user_email,
       task_category_id,
     );
+  }
+
+  @Patch('update')
+  async updateTaskCategory(
+    @Req() req: any,
+    @Body() body: CreateTaskCategoryDto,
+  ) {
+    const user_email = req.userEmail;
+    return this.taskCategoriesService.updateTaskCategory(user_email, body);
   }
 }
