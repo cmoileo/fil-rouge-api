@@ -6,6 +6,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { AccountModule } from './modules/account/account.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { TaskCategoriesModule } from './modules/task-categories/task-categories.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './uploads',
     }),
+    TaskCategoriesModule,
   ],
 })
 export class AppModule {}

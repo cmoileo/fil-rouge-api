@@ -161,7 +161,7 @@ model Job {
 }
 
 model TaskCategory {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   name      String
   color     String
   agency_id String
