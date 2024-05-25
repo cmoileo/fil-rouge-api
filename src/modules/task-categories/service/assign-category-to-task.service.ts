@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { AssignCategoryToTaskDto } from '../dto/assign-category-to-task.dto';
-
 export class AssignCategoryToTaskService {
   constructor(
     private readonly prisma: PrismaClient,
@@ -36,7 +35,7 @@ export class AssignCategoryToTaskService {
       if (!taskCategory) {
         throw new Error('Task category not found');
       }
-      const updatedTask = await this.prisma.task.update({
+      await this.prisma.task.update({
         where: {
           id: this.body.task_id,
           agencyId: user.agency_id,
@@ -45,7 +44,6 @@ export class AssignCategoryToTaskService {
           task_category_id: this.body.task_category_id,
         },
       });
-      return updatedTask;
     } catch (error) {
       console.error(error);
       throw new Error(error);

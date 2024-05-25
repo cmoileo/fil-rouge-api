@@ -31,7 +31,7 @@ export class CreateTaskDto {
   @IsOptional()
   finishing_date: number;
 
-  @IsInt()
+  @IsString()
   @IsOptional()
   task_category_id: string;
 }

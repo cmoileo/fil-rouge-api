@@ -32,6 +32,7 @@ export class CreateTaskService {
           name: this.body.name,
           userId: user.id,
           agencyId: agency.id,
+          task_category_id: this.body.task_category_id,
         },
       });
       if (this.body.assigned_users_id) {
