@@ -35,7 +35,7 @@ export class AssignCategoryToTaskService {
       if (!taskCategory) {
         throw new Error('Task category not found');
       }
-      await this.prisma.task.update({
+      const updatedTask = await this.prisma.task.update({
         where: {
           id: this.body.task_id,
           agencyId: user.agency_id,
@@ -44,6 +44,7 @@ export class AssignCategoryToTaskService {
           task_category_id: this.body.task_category_id,
         },
       });
+      return updatedTask;
     } catch (error) {
       console.error(error);
       throw new Error(error);
