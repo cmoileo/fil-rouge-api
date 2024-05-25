@@ -128,7 +128,8 @@ model Task {
   project             Project?       @relation(fields: [project_id], references: [id])
   kanban_state        KanbanState?   @relation(fields: [kanban_state_id], references: [id])
   task_users          AssignedTask[]
-  task_categories     TaskCategory[]
+  task_category_id    String
+  task_category       TaskCategory   @relation(fields: [task_category_id], references: [id])
   comments            Comment[]
   pictures            Picture[]
   Agency              Agency         @relation(fields: [agencyId], references: [id])
