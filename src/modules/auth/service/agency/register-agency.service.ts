@@ -10,7 +10,9 @@ export default class RegisterAgencyService {
     private readonly body: RegisterAgencyDto,
   ) {}
 
-  async execute(): Promise<{ token: string } | HttpException> {
+  async execute(): Promise<
+    { token: string; role: string; userId: string } | HttpException
+  > {
     if (this.body.password !== this.body.passwordConfirm) {
       throw new HttpException(
         'Password and confirm password do not match',
@@ -60,6 +62,8 @@ export default class RegisterAgencyService {
 
       return {
         token: token,
+        role: newUser.role,
+        userId: newUser.id,
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);

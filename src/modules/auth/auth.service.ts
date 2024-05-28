@@ -23,9 +23,13 @@ export class AuthService {
 
   async registerAgency(
     body: RegisterAgencyDto,
-  ): Promise<{ token: string } | HttpException> {
-    const createAgency: { token: string } | HttpException =
-      await new RegisterAgencyService(this.prisma, body).execute();
+  ): Promise<{ token: string; role: string; userId: string } | HttpException> {
+    const createAgency:
+      | { token: string; role: string; userId: string }
+      | HttpException = await new RegisterAgencyService(
+      this.prisma,
+      body,
+    ).execute();
     return createAgency;
   }
 
@@ -41,17 +45,26 @@ export class AuthService {
   async registerEmployee(
     id: string,
     body: RegisterEmployeeDto,
-  ): Promise<{ token: string } | HttpException> {
-    const createEmployee: { token: string; role: string } | HttpException =
-      await new RegisterEmployeeService(this.prisma, body, id).execute();
+  ): Promise<{ token: string; role: string; userId: string } | HttpException> {
+    const createEmployee:
+      | { token: string; role: string; userId: string }
+      | HttpException = await new RegisterEmployeeService(
+      this.prisma,
+      body,
+      id,
+    ).execute();
     return createEmployee;
   }
 
   async loginEmployee(
     body: LoginEmployeeDto,
-  ): Promise<{ token: string; role: string } | HttpException> {
-    const loggedEmployee: { token: string; role: string } | HttpException =
-      await new LoginEmployeeService(this.prisma, body).execute();
+  ): Promise<{ token: string; role: string; userId: string } | HttpException> {
+    const loggedEmployee:
+      | { token: string; role: string; userId: string }
+      | HttpException = await new LoginEmployeeService(
+      this.prisma,
+      body,
+    ).execute();
     return loggedEmployee;
   }
 
