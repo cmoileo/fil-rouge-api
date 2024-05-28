@@ -33,8 +33,10 @@ export class CreateTaskService {
           userId: user.id,
           agencyId: agency.id,
           task_category_id: this.body.task_category_id,
+          project_id: this.body.project_id,
         },
       });
+      console.log(createdTask);
       if (this.body.assigned_users_id) {
         for (const assigned_user_id of this.body.assigned_users_id) {
           await this.prisma.assignedTask.create({

@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import { Project } from '../../../shared/types/project/project.type';
+import { PrismaClient, Project } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
 
 export class GetProjectByIdService {
@@ -9,9 +8,12 @@ export class GetProjectByIdService {
   ) {}
   async execute(): Promise<Project | HttpException> {
     try {
-      const project: Project = await this.prisma.project.findUnique({
+      const project = await this.prisma.project.findUnique({
         where: {
           id: this.project_id,
+        },
+        include: {
+          tasks: true,
         },
       });
       if (!project) {

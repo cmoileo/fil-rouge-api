@@ -1,15 +1,13 @@
-import {
-  IsArray,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  project_id: string;
 
   @IsString()
   @IsOptional()
@@ -23,11 +21,11 @@ export class CreateTaskDto {
   @IsOptional()
   assigned_users_id: string[];
 
-  @IsInt()
+  @IsString()
   @IsOptional()
   starting_date: number;
 
-  @IsInt()
+  @IsString()
   @IsOptional()
   finishing_date: number;
 
