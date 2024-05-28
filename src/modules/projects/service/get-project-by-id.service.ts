@@ -15,12 +15,15 @@ export class GetProjectByIdService {
         include: {
           tasks: {
             include: {
-              task_users: true,
+              task_users: {
+                include: {
+                  employe: true,
+                },
+              },
             },
           },
         },
       });
-      console.log(project);
       if (!project) {
         throw new HttpException('Project not found', 404);
       }
