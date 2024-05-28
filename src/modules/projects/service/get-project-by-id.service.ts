@@ -13,9 +13,14 @@ export class GetProjectByIdService {
           id: this.project_id,
         },
         include: {
-          tasks: true,
+          tasks: {
+            include: {
+              task_users: true,
+            },
+          },
         },
       });
+      console.log(project);
       if (!project) {
         throw new HttpException('Project not found', 404);
       }

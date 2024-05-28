@@ -24,6 +24,9 @@ export class GetTaskByIdService {
           id: this.task_id,
           agencyId: user.agency_id,
         },
+        include: {
+          task_users: true,
+        },
       });
       if (!task) {
         throw new HttpException('Task not found', 404);
