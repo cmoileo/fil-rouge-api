@@ -17,20 +17,36 @@ export class DeleteTaskCategoryService {
       if (!user) {
         throw new Error('User not found');
       }
+
       const taskCategory = await this.prisma.taskCategory.findUnique({
         where: {
           id: this.task_category_id,
           agency_id: user.agency_id,
         },
       });
+
       if (!taskCategory) {
         throw new Error('Task category not found');
       }
-      return await this.prisma.taskCategory.delete({
+
+      // Dissocier les tâches de la catégorie de tâches à supprimer
+      await this.prisma.task.updateMany({
         where: {
-          id: taskCategory.id,
+          task_category_id: this.task_category_id,
+        },
+        data: {
+          task_category_id: null,
         },
       });
+
+      // Ensuite, supprimer la catégorie de tâches
+      await this.prisma.taskCategory.delete({
+        where: {
+          id: this.task_category_id,
+        },
+      });
+
+      return 'Task category deleted successfully';
     } catch (error) {
       console.log(error);
       return error;
