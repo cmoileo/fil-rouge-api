@@ -8,9 +8,7 @@ export class UpdateTaskService {
     private readonly user_id: string,
     private readonly task_id: string,
     private readonly body: UpdateTaskDto,
-  ) {
-    this.prisma = new PrismaClient();
-  }
+  ) {}
 
   async execute(): Promise<boolean | HttpException> {
     try {
@@ -35,7 +33,7 @@ export class UpdateTaskService {
       if (task.agencyId !== user.agency_id) {
         throw new HttpException('Unauthorized', 401);
       }
-      const updatedTask = await this.prisma.task.update({
+      await this.prisma.task.update({
         where: {
           id: this.task_id,
         },

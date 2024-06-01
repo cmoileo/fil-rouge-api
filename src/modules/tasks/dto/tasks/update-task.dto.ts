@@ -22,11 +22,9 @@ export class UpdateTaskDto {
   @IsOptional()
   description?: string;
 
-  @IsDate()
   @IsOptional()
   starting_date?: Date;
 
-  @IsDate()
   @IsOptional()
   finishing_date?: Date;
 
