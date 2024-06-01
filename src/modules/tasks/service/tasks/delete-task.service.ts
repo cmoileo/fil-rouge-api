@@ -25,6 +25,11 @@ export class DeleteTaskService {
       if (existsTask.agencyId !== user.agency_id) {
         throw new HttpException('Unauthorized', 401);
       }
+      await this.prisma.assignedTask.deleteMany({
+        where: {
+          task_id: this.task_id,
+        },
+      });
       await this.prisma.task.delete({
         where: {
           id: this.task_id,
@@ -32,6 +37,7 @@ export class DeleteTaskService {
       });
       return true;
     } catch (error) {
+      console.log(error);
       throw new HttpException('Internal server error', 500);
     }
   }

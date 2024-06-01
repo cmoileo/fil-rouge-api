@@ -29,7 +29,6 @@ export class DeleteTaskCategoryService {
         throw new Error('Task category not found');
       }
 
-      // Dissocier les tâches de la catégorie de tâches à supprimer
       await this.prisma.task.updateMany({
         where: {
           task_category_id: this.task_category_id,
@@ -39,7 +38,6 @@ export class DeleteTaskCategoryService {
         },
       });
 
-      // Ensuite, supprimer la catégorie de tâches
       await this.prisma.taskCategory.delete({
         where: {
           id: this.task_category_id,
