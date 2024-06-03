@@ -108,4 +108,10 @@ export class TasksController {
     const user_email = req.userEmail;
     return this.tasksService.deleteCommentById(user_email, comment_id);
   }
+
+  @Get('/get-most-urgent')
+  async getMostUrgentTasks(@Req() req: any): Promise<any> {
+    const user_email = req.userEmail;
+    return this.tasksService.getMostUrgentTasks(user_email);
+  }
 }

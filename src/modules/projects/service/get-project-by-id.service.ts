@@ -21,6 +21,11 @@ export class GetProjectByIdService {
                   employe: true,
                 },
               },
+              comments: {
+                include: {
+                  author: true,
+                },
+              },
             },
           },
         },
@@ -42,6 +47,21 @@ export class GetProjectByIdService {
             }
           } else {
             taskUser.employe.profile_picture_url = null;
+          }
+        }
+        for (const comment of task.comments) {
+          if (comment.author.profile_picture_url) {
+            try {
+              const signedUrl = await storageService.getSignedUrl(
+                comment.author.profile_picture_url,
+              );
+              comment.author.profile_picture_url = signedUrl;
+            } catch (error) {
+              console.error('Error getting signed URL:', error);
+              comment.author.profile_picture_url = null;
+            }
+          } else {
+            comment.author.profile_picture_url = null;
           }
         }
       }

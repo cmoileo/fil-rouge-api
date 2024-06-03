@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
-import { CommentType } from "../../../../shared/types/comment/comment.type";
+import { CommentType } from '../../../../shared/types/comment/comment.type';
 
 export class GetCommentByIdService {
   constructor(

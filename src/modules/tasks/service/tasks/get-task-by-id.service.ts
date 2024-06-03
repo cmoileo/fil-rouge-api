@@ -26,6 +26,7 @@ export class GetTaskByIdService {
         },
         include: {
           task_users: true,
+          comments: true,
         },
       });
       if (!task) {
