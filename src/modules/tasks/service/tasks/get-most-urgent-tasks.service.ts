@@ -30,7 +30,7 @@ export class GetMostUrgentTasksService {
           agencyId: user.agency_id,
         },
         orderBy: {
-          finishing_date: 'asc',
+          finishing_date: 'desc',
         },
       });
       return tasks;
