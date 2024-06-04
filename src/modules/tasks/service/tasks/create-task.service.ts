@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { CreateTaskDto } from '../../dto/tasks/create-task.dto';
 import { HttpException } from '@nestjs/common';
+import MailerService from '../../../../shared/utils/mail.service';
 
 export class CreateTaskService {
   constructor(
@@ -44,6 +45,16 @@ export class CreateTaskService {
               task_id: createdTask.id,
             },
           });
+          const employee = await this.prisma.user.findUnique({
+            where: {
+              id: assigned_user_id,
+            },
+          });
+          await new MailerService(
+            'You have been assigned to a task',
+            `${employee.firstname}, you have been assigned to a task, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${this.body.project_id}">here</a>.`,
+            employee.email,
+          ).sendMail();
         }
       }
       return true;
