@@ -1,5 +1,6 @@
 import { PrismaClient, Task } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
+import storageService from '../../../../shared/utils/supabase/storage.service';
 
 export class GetMostUrgentTasksService {
   constructor(
@@ -32,7 +33,51 @@ export class GetMostUrgentTasksService {
         orderBy: {
           finishing_date: 'desc',
         },
+        include: {
+          task_users: {
+            include: {
+              employe: true,
+            },
+          },
+          comments: {
+            include: {
+              author: true,
+            },
+          },
+        },
       });
+      for (const task of tasks) {
+        for (const taskUser of task.task_users) {
+          if (taskUser.employe.profile_picture_url) {
+            try {
+              const signedUrl = await storageService.getSignedUrl(
+                taskUser.employe.profile_picture_url,
+              );
+              taskUser.employe.profile_picture_url = signedUrl;
+            } catch (error) {
+              console.error('Error getting signed URL:', error);
+              taskUser.employe.profile_picture_url = null;
+            }
+          } else {
+            taskUser.employe.profile_picture_url = null;
+          }
+        }
+        for (const comment of task.comments) {
+          if (comment.author.profile_picture_url) {
+            try {
+              const signedUrl = await storageService.getSignedUrl(
+                comment.author.profile_picture_url,
+              );
+              comment.author.profile_picture_url = signedUrl;
+            } catch (error) {
+              console.error('Error getting signed URL:', error);
+              comment.author.profile_picture_url = null;
+            }
+          } else {
+            comment.author.profile_picture_url = null;
+          }
+        }
+      }
       return tasks;
     } catch (error) {
       console.log(error);

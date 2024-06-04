@@ -27,6 +27,11 @@ export class GetUsersService {
         },
         include: {
           job: true,
+          assigned_tasks: {
+            include: {
+              task: true,
+            },
+          },
         },
       });
 
