@@ -46,6 +46,7 @@ export class AddCommentService {
             id: userAssigned.employe_id,
           },
         });
+        if (employee.email == user.email) return;
         await new MailerService(
           'New comment on a task',
           `${employee.firstname}, a new comment has been added to a task you are assigned to, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${task.project_id}">here</a>.`,
