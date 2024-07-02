@@ -77,12 +77,13 @@ export class UpdateTaskService {
               id: assigned_user_id,
             },
           });
-          if (employee.email == user.email) return;
-          await new MailerService(
-            'You have been assigned to a task',
-            `${employee.firstname}, you have been assigned to a task, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${task.project_id}">here</a>.`,
-            employee.email,
-          ).sendMail();
+          if (employee.email !== user.email) {
+            await new MailerService(
+              'You have been assigned to a task',
+              `${employee.firstname}, you have been assigned to a task, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${task.project_id}">here</a>.`,
+              employee.email,
+            ).sendMail();
+          }
         }
       }
       return true;

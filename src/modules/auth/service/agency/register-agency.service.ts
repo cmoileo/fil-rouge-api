@@ -31,7 +31,7 @@ export default class RegisterAgencyService {
           zip_code: this.body.zip_code,
           country: this.body.country,
           employee_count: this.body.employee_count,
-          plan: this.body.plan,
+          plan: 'freemium',
         },
       });
 

@@ -61,11 +61,6 @@ export class RegisterAgencyDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['freemium', 'pro', 'business'])
-  plan: 'freemium' | 'pro' | 'business';
-
-  @IsString()
-  @IsNotEmpty()
   firstname: string;
 
   @IsString()
