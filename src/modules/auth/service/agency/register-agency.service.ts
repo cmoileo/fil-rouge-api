@@ -66,6 +66,7 @@ export default class RegisterAgencyService {
         userId: newUser.id,
       };
     } catch (err) {
+      console.log(err);
       throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

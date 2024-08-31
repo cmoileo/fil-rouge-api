@@ -15,6 +15,7 @@ export class AuthController {
 
   @Post('agency/register')
   async registerAgency(@Body() body: RegisterAgencyDto) {
+    console.log('body', body);
     return this.authService.registerAgency(body);
   }
   @UseGuards(JwtAuthGuard)
