@@ -3,6 +3,8 @@ import HashPassword from '../../../../shared/utils/hash-password';
 import GenerateJwt from '../../../../shared/utils/jwt-token/generate-jwt';
 import { PrismaClient } from '@prisma/client';
 import { RegisterAgencyDto } from '../../dto/agency/register-agency.dto';
+import storageService from '../../../../shared/utils/supabase/storage.service';
+import { extname } from 'path';
 
 export default class RegisterAgencyService {
   constructor(
@@ -35,6 +37,13 @@ export default class RegisterAgencyService {
         },
       });
 
+      let imageUrl: { name: string; image_url: string } | null;
+      let image_key: string | null;
+      if (this.body.avatar) {
+        imageUrl = await storageService.uploadFile(this.body.avatar);
+        image_key = `${Date.now()}${extname(this.body.avatar.originalname)}`;
+      }
+
       const newUser = await this.prisma.user.create({
         data: {
           email: this.body.email,
@@ -43,6 +52,8 @@ export default class RegisterAgencyService {
           firstname: this.body.firstname,
           lastname: this.body.lastname,
           role: 'OWNER',
+          profile_picture_url: imageUrl ? imageUrl.image_url : null,
+          profile_picture_key: imageUrl ? image_key : null,
         },
       });
       if (!newUser) {

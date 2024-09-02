@@ -66,4 +66,7 @@ export class RegisterAgencyDto {
   @IsString()
   @IsNotEmpty()
   lastname: string;
+
+  @IsOptional()
+  avatar: any;
 }

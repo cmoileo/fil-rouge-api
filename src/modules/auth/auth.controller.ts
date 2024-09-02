@@ -15,7 +15,19 @@ export class AuthController {
 
   @Post('agency/register')
   async registerAgency(@Body() body: RegisterAgencyDto) {
-    console.log('body', body);
+    console.log(body);
+    const base64Data = body.avatar.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const file = {
+      fieldname: 'avatar',
+      originalname: `avatar_${Date.now()}.png`,
+      mimetype: 'image/png',
+      buffer: buffer,
+      size: buffer.length,
+    };
+
+    body.avatar = file;
     return this.authService.registerAgency(body);
   }
   @UseGuards(JwtAuthGuard)
