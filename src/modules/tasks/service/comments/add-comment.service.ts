@@ -1,7 +1,7 @@
 import { CreateCommentDto } from '../../dto/comments/create-comment.dto';
 import { PrismaClient } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
-import MailerService from '../../../../shared/utils/mail.service';
+import MailerService from '../../../../shared/utils/mails/mail.service';
 
 export class AddCommentService {
   constructor(
@@ -49,8 +49,12 @@ export class AddCommentService {
         if (employee.email == user.email) return;
         await new MailerService(
           'New comment on a task',
-          `${employee.firstname}, a new comment has been added to a task you are assigned to, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${task.project_id}">here</a>.`,
           employee.email,
+          'new-comment',
+          {
+            link: `${process.env.FRONT_URL}/dashboard/project/${task.project_id}`,
+            firstname: employee.firstname,
+          },
         ).sendMail();
       }
       return true;

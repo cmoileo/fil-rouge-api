@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { AddEmployeeAgencyDto } from '../../dto/agency/add-employee-agency.dto';
 import { HttpException } from '@nestjs/common';
-import MailerService from '../../../../shared/utils/mail.service';
+import MailerService from '../../../../shared/utils/mails/mail.service';
 import * as process from 'process';
 
 export default class AddEmployeeAgencyService {
@@ -55,14 +55,20 @@ export default class AddEmployeeAgencyService {
         id: user.agency_id,
       },
     });
+    console.log(agency);
     try {
       await new MailerService(
         "You've been invited to join an agency",
-        `You've been invited to join ${agency.name}. Click <a href="${process.env.FRONT_URL}/register-employee/${newEmployee.id}">here</a> to accept the invitation`,
         newEmployee.email,
+        'invitation',
+        {
+          agency_name: agency.name,
+          link: `${process.env.FRONT_URL}/register-employee/${newEmployee.id}`,
+        },
       ).sendMail();
       return true;
     } catch (error) {
+      console.log('Error sending email', error);
       return new HttpException('Error sending email', 500);
     }
   }

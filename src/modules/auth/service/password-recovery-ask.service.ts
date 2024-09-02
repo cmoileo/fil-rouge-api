@@ -1,7 +1,7 @@
 import { HttpException } from '@nestjs/common';
 import { PasswordRecoveryAskDto } from '../dto/password-recovery-ask.dto';
 import { PrismaClient } from '@prisma/client';
-import MailerService from '../../../shared/utils/mail.service';
+import MailerService from '../../../shared/utils/mails/mail.service';
 import HashPassword from '../../../shared/utils/hash-password';
 
 export class PasswordRecoveryAskService {
@@ -39,8 +39,11 @@ export class PasswordRecoveryAskService {
 
       await new MailerService(
         'Password recovery',
-        `To recover your password, click on the following link ${process.env.API_URL}/password-recovery/${hashedPendingPassword}`,
         this.body.email,
+        'password-recovery',
+        {
+          link: `${process.env.API_URL}/password-recovery/${hashedPendingPassword}`,
+        },
       ).sendMail();
 
       return true;

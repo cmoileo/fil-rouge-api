@@ -1,10 +1,10 @@
 import { PrismaClient, User, Agency, Task, AssignedTask } from '@prisma/client';
 import { HttpException } from '@nestjs/common';
 import { CreateTaskDto } from '../../dto/tasks/create-task.dto';
-import MailerService from '../../../../shared/utils/mail.service';
+import MailerService from '../../../../shared/utils/mails/mail.service';
 import { CreateTaskService } from './create-task.service';
 
-jest.mock('../../../../shared/utils/mail.service');
+jest.mock('../../../../shared/utils/mails/mail.service');
 
 describe('CreateTaskService', () => {
   let prisma: PrismaClient;
