@@ -57,6 +57,8 @@ export class CreateTaskService {
             {
               link: `${process.env.FRONT_URL}/dashboard/project/${this.body.project_id}`,
               firstname: employee.firstname,
+              taskName: this.body.name,
+              userNames: `${user.firstname} ${user.lastname}`,
             },
           ).sendMail();
         }

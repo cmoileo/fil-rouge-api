@@ -82,7 +82,12 @@ export class UpdateTaskService {
               'You have been assigned to a task',
               employee.email,
               'assigned-task',
-              `${employee.firstname}, you have been assigned to a task, you can view it by clicking <a href="${process.env.FRONT_URL}/dashboard/project/${task.project_id}">here</a>.`,
+              {
+                link: `${process.env.FRONT_URL}/dashboard/project/${task.project_id}`,
+                firstname: employee.firstname,
+                taskName: task.name,
+                userNames: `${user.firstname} ${user.lastname}`,
+              },
             ).sendMail();
           }
         }
