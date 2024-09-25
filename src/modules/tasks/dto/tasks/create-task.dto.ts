@@ -23,11 +23,11 @@ export class CreateTaskDto {
 
   @IsString()
   @IsOptional()
-  starting_date: number;
+  starting_date: Date;
 
   @IsString()
   @IsOptional()
-  finishing_date: number;
+  finishing_date: Date;
 
   @IsString()
   @IsOptional()

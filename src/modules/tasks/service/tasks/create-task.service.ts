@@ -35,6 +35,8 @@ export class CreateTaskService {
           agencyId: agency.id,
           task_category_id: this.body.task_category_id,
           project_id: this.body.project_id,
+          starting_date: this.body.starting_date,
+          finishing_date: this.body.finishing_date,
         },
       });
       if (this.body.assigned_users_id) {
