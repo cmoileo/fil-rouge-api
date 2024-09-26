@@ -11,7 +11,16 @@ describe('CreateTaskService', () => {
   let createTaskService: CreateTaskService;
   let user: User;
   let agency: Agency;
-  let createTaskDto: CreateTaskDto;
+  let createTaskDto: {
+    finishing_date: Date;
+    starting_date: Date;
+    task_category_id: string;
+    project_id: string;
+    task_state_id: string;
+    assigned_users_id: string[];
+    name: string;
+    description: string;
+  };
 
   beforeEach(() => {
     prisma = new PrismaClient();
@@ -21,8 +30,8 @@ describe('CreateTaskService', () => {
       description: 'Test Description',
       task_state_id: 'task-state-id',
       assigned_users_id: ['user-id-1', 'user-id-2'],
-      starting_date: Date.now(),
-      finishing_date: Date.now() + 1000 * 60 * 60 * 24,
+      starting_date: new Date(),
+      finishing_date: new Date(),
       task_category_id: 'task-category-id',
     };
     user = {
@@ -75,6 +84,8 @@ describe('CreateTaskService', () => {
     expect(prisma.task.create).toHaveBeenCalledWith({
       data: {
         name: createTaskDto.name,
+        finishing_date: createTaskDto.finishing_date,
+        starting_date: createTaskDto.starting_date,
         userId: user.id,
         agencyId: agency.id,
         task_category_id: createTaskDto.task_category_id,
